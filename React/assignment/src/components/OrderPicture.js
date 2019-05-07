@@ -6,7 +6,7 @@ import wooden from "../images/wooden.jpg";
 
 class OrderPicture extends React.Component{
     constructor(props){
-        super()
+        super(props)
     }
 
     getOrderImage(shutterMaterial){

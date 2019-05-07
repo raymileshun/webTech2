@@ -1,7 +1,7 @@
 import React from "react"
 import SubmitOrder from "./SubmitOrder";
-import axios from "axios"
 import ListOrders from "./ListOrders";
+import Worker from "./Worker";
 
 const shutters=[
     {
@@ -39,7 +39,7 @@ const colors=[
 
 class Customer extends React.Component{
     constructor(props){
-        super()
+        super(props)
 
         this.state={
             Shutter:shutters,
@@ -48,21 +48,13 @@ class Customer extends React.Component{
         }
     }
 
-    submitOrder = (orderData) => {
-        axios.post('http://localhost:8090/submitOrder', orderData)
-            .then(res => {alert("Order submitted"); })
-            .then(res=> {this.setState({orderRejected: "false"})})
-            .catch(e => {
-                alert(e  + " order failed.");
-                this.setState({orderRejected: "true"});
-            });
-    };
+
 
     render(){
         return(
             <div>
-                <SubmitOrder submitOrder={this.submitOrder} shutters={this.state.Shutter} colors={this.state.Colors} orderRejected={this.state.orderRejected}/>
-                <ListOrders/>
+                <SubmitOrder shutters={this.state.Shutter} colors={this.state.Colors}/>
+                {/*<ListOrders orders={this.props.orders}/>*/}
             </div>
         )
 

@@ -34,6 +34,10 @@ function getOrders(callback){
     readRequests({},(result) => {callback(result)},orderCollectionName)
 }
 
+function listOrdersOfCustomer(customerName,callback){
+    readRequests({"order.customerName" : customerName},(result) => {callback(result)},orderCollectionName)
+}
+
 
 function createRequest(request,callback){
     var client = new MongoClient(url);
@@ -55,5 +59,6 @@ function createRequest(request,callback){
 
 module.exports = {
     "createRequest" : createRequest,
-    "getOrders": getOrders
+    "getOrders": getOrders,
+    "listOrdersOfCustomer": listOrdersOfCustomer
 }

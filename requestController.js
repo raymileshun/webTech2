@@ -7,6 +7,13 @@ const requestService = new rs()
 
 
 router.get('/listOrders',(req,res) =>{
+    if(req.query['customerName'] != undefined){
+
+        requestService.listOrdersOfCustomer(req.query['customerName'], (requests)=>{
+            res.status(200).send(requests)
+        })
+        return;
+    }
     requestService.listOrders((requests) =>{
         //console.log(getCurrentOrderId(requests));
         res.status(200).send(requests)

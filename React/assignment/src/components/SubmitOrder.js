@@ -1,10 +1,13 @@
 import React from "react"
 import OrderPicture from "./OrderPicture";
+import axios from "axios";
+import ShoppingCart from "./ShoppingCart";
 
 class SubmitOrder extends React.Component {
 //TODO
-    //majd a shutternek is külön collection és endpoint
-    //totalPrice-ot átírnia getFinishedPrice() functionben, mert stateket kell beállítani neki
+    //customer adattagokat és metódusokat a Customer.js-be átrakni (name, address) és majd a hivatkozásokat is this.state-ről át kell
+    //írni this.propsra.
+
 
     state = {
         customerName: "",
@@ -21,7 +24,8 @@ class SubmitOrder extends React.Component {
         },
         totalPrice :"",
         orderInProcess: "no",
-        orders: []
+        orders: [],
+        orderRejected:"false"
     }
 
     handleChange(event) {
@@ -42,6 +46,24 @@ class SubmitOrder extends React.Component {
         return (new RegExp(/^[0-9]{11}$/).test(phoneNumber))
     }
 
+    getShoppingCart(){
+        if(this.state.orders.length===0){
+            return <h1>A kosár üres!</h1>
+        } else{
+            return  <ShoppingCart orders={this.state.orders}/>
+        }
+
+    }
+
+    submitOrder = (orderData) => {
+        axios.post('http://localhost:8090/submitOrder', orderData)
+            .then(res => {this.setState({orderRejected: "false"});alert("Order submitted"); })
+            .catch(e => {
+                alert(e  + " order failed.");
+                this.setState({orderRejected: "true"});
+            });
+    };
+
     getPriceForCurrentOrder(shutterMaterial){
         switch (shutterMaterial) {
             case "acél": return this.props.shutters[0].price;
@@ -53,15 +75,14 @@ class SubmitOrder extends React.Component {
 
     getFinalPrice(){
         if(this.state.orders.length !==0){
-            let currentPrice=parseInt(this.state.currentOrder.numberOfPieces*this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial))
-            let ordersPrice ="";
+            let currentPrice=parseInt(this.state.currentOrder.numberOfPieces)*parseInt(this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial))
+            let ordersPrice =0;
             (this.state.orders.map((order) =>
                 ordersPrice+=parseInt(order.orderPrice)
             ))
-            console.log(ordersPrice)
             return parseInt(currentPrice)+parseInt(ordersPrice)
         } else {
-            return parseInt(this.state.currentOrder.numberOfPieces*this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial))
+            return parseInt(this.state.currentOrder.numberOfPieces)*parseInt(this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial))
         }
     }
 
@@ -125,23 +146,30 @@ class SubmitOrder extends React.Component {
             alert("Először adjon hozzá valamit a kosárhoz")
             return;
         }
+        let ordersPrice =0;
+        (this.state.orders.map((order) =>
+            ordersPrice+=parseInt(order.orderPrice)
+        ))
         let orderData = {
             order: {
                 customerName: this.state.customerName,
                 phoneNumber: this.state.phoneNumber,
                 address: this.state.address,
-                orders: this.state.orders
+                orders: this.state.orders,
+                totalPrice: parseInt(ordersPrice)
             }
         };
 
 
         //alert(orderData.order.customerName);
-        this.props.submitOrder(orderData);
-        if(this.props.orderRejected==="true" || this.props.orderRejected===""){
+        this.submitOrder(orderData);
+        if(this.state.orderRejected==="true" || this.state.orderRejected===""){
             return;
         }
         this.setState({orderInProcess: "no"})
         this.setState({orders: []})
+
+
     }
 
 
@@ -208,17 +236,7 @@ class SubmitOrder extends React.Component {
                 </div>
                 <div>
                     Darabszám: {this.state.currentOrder.numberOfPieces}<br/>
-                    <div>
-                    {this.state.orders.map((order) =>
-                        <div>
-                            <h4>{order.windowType}</h4>
-                            <h4>{order.windowWidth}</h4>
-                            <h4>{order.windowHeight}</h4>
-                            <h4>{order.shutterMaterial}</h4>
-                            <h4>{order.shutterColor}</h4>
-                        </div>
-                    )}<br/>
-                </div>
+                    {this.getShoppingCart()}
                 </div>
                 <button type="button" onClick={this.addToCart.bind(this)}>Add order to cart.</button>
                 <button type="button" onClick={this.submit.bind(this)}>Submit order</button>

@@ -4,7 +4,7 @@ import axios from 'axios';
 class ListOrders extends React.Component{
 
     constructor(props){
-        super();
+        super(props);
 
         this.state = {
             orders: []
@@ -12,20 +12,12 @@ class ListOrders extends React.Component{
     }
 
 
-    componentDidMount() {
-        axios.get(`http://localhost:8090/listOrders`)
-            .then(res => {
-                this.setState({ orders: res.data });
-            })
-
-    }
-
     render(){
         return (
             <div>
                 <h1>Orders:</h1>
                 <ul>
-                    { this.state.orders.map(order =>
+                    { this.props.orders.map(order =>
                         <div>
                         <li key={order.order.customerName}>{order.order.customerName}</li>
                         <li key={order.order.phoneNumber}>{order.order.phoneNumber}</li>

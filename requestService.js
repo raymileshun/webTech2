@@ -28,12 +28,14 @@ RequestService.prototype.listOrders = function(callback){
     })
 }
 
-RequestService.prototype.listOneOrder = function(orderId, callback){
-    this.requestDAO.getOneOrder(orderId, (requests) =>{
+RequestService.prototype.listOrdersOfCustomer = function(customerName, callback){
+    this.requestDAO.listOrdersOfCustomer(customerName, (requests) =>{
         logger.info(`${requests.length} requests were found!`)
         callback(requests)
     })
 }
+
+
 
 
 
