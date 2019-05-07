@@ -7,26 +7,30 @@ class SubmitOrder extends React.Component {
 //TODO
     //customer adattagokat és metódusokat a Customer.js-be átrakni (name, address) és majd a hivatkozásokat is this.state-ről át kell
     //írni this.propsra.
+    constructor(props){
+        super(props)
 
-
-    state = {
-        customerName: "",
-        phoneNumber: "",
-        address: "",
-        currentOrder: {
-            windowType: "Egyszárnyú",
-            windowHeight: "",
-            windowWidth: "",
-            shutterMaterial: "acél",
-            shutterColor: this.props.colors[0],
-            numberOfPieces: "1",
-            orderPrice: ""
-        },
-        totalPrice :"",
-        orderInProcess: "no",
-        orders: [],
-        orderRejected:"false"
+        this.state = {
+            customerName: "",
+            phoneNumber: "",
+            address: "",
+            currentOrder: {
+                windowType: "Egyszárnyú",
+                windowHeight: "",
+                windowWidth: "",
+                shutterMaterial: "acél",
+                shutterColor: this.props.colors[0],
+                numberOfPieces: "1",
+                orderPrice: ""
+            },
+            totalPrice :"",
+            orderInProcess: "no",
+            orders: [],
+            orderRejected:"false"
+        }
     }
+
+
 
     handleChange(event) {
         let fieldName = event.target.name

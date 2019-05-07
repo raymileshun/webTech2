@@ -6,6 +6,9 @@ import axios from "axios";
 import Worker from "./components/Worker";
 
 class App extends React.Component{
+    //TODO
+    //AXIOS HÍVÁST ÁTÍRNI FETCHRE
+    //KISZERVEZNI DISPATHERES CUCCRA
 
     constructor(props){
         super(props);
@@ -27,7 +30,7 @@ class App extends React.Component{
         return (
             <div>
                 <Customer orders={this.state.orders}/>
-                <Worker/>
+                <Worker orders={this.state.orders}/>
             </div>
 
         );
