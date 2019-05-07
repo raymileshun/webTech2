@@ -16,21 +16,23 @@ router.get('/listOrders',(req,res) =>{
 
 router.post('/submitOrder', (req,res) =>{
     if(req.body['order'] == undefined){
-        res.status(414).send("Student must be defined");
+        res.status(414).send("Order must be defined");
         return;
     }
     if(req.body['order']['customerName'] == undefined || req.body['order']['customerName'] === ""){
-        res.status(414).send("Student name must be defined");
+        res.status(414).send("Customer name must be defined");
         return;
     }
     if(req.body['order']['phoneNumber'] == undefined || req.body['order']['phoneNumber'] === ""){
-        res.status(414).send("Student ID must be defined");
+        res.status(414).send("Phone number must be defined");
         return;
     }
     if(req.body['order']['address'] == undefined || req.body['order']['address'] === ""){
-        res.status(414).send("Student programme name must be defined");
+        res.status(414).send("Address must be defined");
         return;
     }
+
+
     requestService.submitRequest(
         {order : req.body['order']},
         () => {res.status(200).send("Request recorded")},

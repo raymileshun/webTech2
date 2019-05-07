@@ -13,7 +13,7 @@ class ListOrders extends React.Component{
 
 
     componentDidMount() {
-        axios.get(`http://localhost:8080/listOrders`)
+        axios.get(`http://localhost:8090/listOrders`)
             .then(res => {
                 this.setState({ orders: res.data });
             })
