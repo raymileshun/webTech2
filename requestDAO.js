@@ -1,4 +1,6 @@
 /* MongoDB Related Code */
+var ObjectId = require('mongodb').ObjectId;
+
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 
@@ -56,9 +58,26 @@ function createRequest(request,callback){
     })
 }
 
+function updateOrder(orderid,index,callback){
+    var client = new MongoClient(url);
+    client.connect((err)=>{
+        assert.equal(null, err);
+        const db = client.db(dbName);
+        const collection= db.collection(orderCollectionName);
+        const query =   { _id: ObjectId(orderid) };
+        const setter = {["order.orders."+index+".assembled"]:"true"};
+        collection.updateOne(query,{$set:setter}, (err,r)=> {
+            if (err) console.log(err);
+            callback();
+            client.close();
+        });
+    })
+}
+
 
 module.exports = {
     "createRequest" : createRequest,
     "getOrders": getOrders,
-    "listOrdersOfCustomer": listOrdersOfCustomer
+    "listOrdersOfCustomer": listOrdersOfCustomer,
+    "updateOrderWithAssembling":updateOrder
 }

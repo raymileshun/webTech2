@@ -36,7 +36,9 @@ RequestService.prototype.listOrdersOfCustomer = function(customerName, callback)
 }
 
 
-
+RequestService.prototype.updateOrderWithAssembling = function(ordersId, orderIndex, success){
+    this.requestDAO.updateOrderWithAssembling(ordersId, orderIndex, ()=>{success()})
+};
 
 
 RequestService.prototype.submitRequest = function(request, success, error){

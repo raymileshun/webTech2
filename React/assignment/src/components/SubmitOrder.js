@@ -90,6 +90,16 @@ class SubmitOrder extends React.Component {
         }
     }
 
+    //1-es hogy a cutomerNamet is nullázza, kettes hogy csak az orderek mezőit
+    resetValues(mode){
+        let values={
+            windowWidth: "",
+            windowHeight: "",
+            numberOfPieces: 1
+        }
+        this.setState({currentOrder: {...this.state.currentOrder, values}})
+    }
+
 
     addToCart(event) {
         let errors = [];
@@ -138,8 +148,11 @@ class SubmitOrder extends React.Component {
             shutterMaterial: this.state.currentOrder.shutterMaterial,
             shutterColor: this.state.currentOrder.shutterColor,
             numberOfPieces: this.state.currentOrder.numberOfPieces,
-            orderPrice: this.state.currentOrder.numberOfPieces * this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial)
+            orderPrice: this.state.currentOrder.numberOfPieces * this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial),
+            assembled: "false"
+
         })
+        //this.resetValues(2)
         alert("Added to cart!")
 
     }

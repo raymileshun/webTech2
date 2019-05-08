@@ -21,12 +21,20 @@ class App extends React.Component{
         }
     }
 
-    componentDidMount() {
+    loadOrders(){
         axios.get(`http://localhost:8090/listOrders`)
             .then(res => {
                 this.setState({ orders: res.data});
             })
+    }
 
+    componentDidMount() {
+        this.loadOrders()
+
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.loadOrders()
     }
 
     render() {

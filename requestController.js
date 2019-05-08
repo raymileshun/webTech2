@@ -47,6 +47,10 @@ router.post('/submitOrder', (req,res) =>{
         )
 })
 
+router.post('/submitOrder/:orderId/:currentOrderIndex', (req,res) =>{
+    requestService.updateOrderWithAssembling(req.params.orderId,req.params.currentOrderIndex,() => {res.status(200).send("Összeszerelve")})
+});
+
 function getCurrentJobId(requests){
     if(requests.length==0){
         return '1';

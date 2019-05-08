@@ -11,8 +11,8 @@ app.use(function(req, res, next) {
     next();
 });
 
-const studentRequestController = require('./requestController')
-app.use('/',studentRequestController)
+const requestController = require('./requestController')
+app.use('/',requestController)
 
 app.use(express.static('public'))
 

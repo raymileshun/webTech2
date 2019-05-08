@@ -1,8 +1,10 @@
 import React from "react"
+import axios from "axios"
 
 class Worker extends React.Component{
     //TODO
         //ASSEMBLE CLICK MEGCSINÁLÁSA (isAssembled belerakása a submitOrderbe is)
+    //Assemblenél majd egy piros gomb ha még nincs összeszerelve, és egy zöld hogyha összevan
 
     constructor(props){
         super(props)
@@ -76,6 +78,19 @@ class Worker extends React.Component{
     }
 
 
+    handleAssembling(fullOrderId,currentOrderId, alreadyAssembled){
+        console.log(currentOrderId)
+        if(alreadyAssembled==="true"){
+            alert("Ez már össze van szerelve!")
+            return;
+        }
+        axios.post(`http://localhost:8090/submitOrder/${fullOrderId}/${currentOrderId}`)
+            .then(res => {alert("Összeszerelve!")})
+            .catch(e => {alert(e  + "\n\nValami gond volt az összeszereléssel")});
+
+    }
+
+
     renderOrderView(orders){
         if(this.props.orders.length===0){
             return <div>NINCSENEK MEGRENDELÉSEK</div>
@@ -91,7 +106,7 @@ class Worker extends React.Component{
                             <li key={order.order.phoneNumber}>{order.order.phoneNumber}</li>
                             <li key={order.order.address}>{order.order.address}</li>
                             <ul>
-                            { order.order.orders.map(currentOrder =>
+                            { order.order.orders.map((currentOrder,orderIndex) =>
                                 <div>
                                     <li key={currentOrder.windowType}>{currentOrder.windowType}</li>
                                     <li key={currentOrder.windowWidth}>{currentOrder.windowWidth}</li>
@@ -99,6 +114,7 @@ class Worker extends React.Component{
                                     <li key={currentOrder.shutterMaterial}>{currentOrder.shutterMaterial}</li>
                                     <li key={currentOrder.shutterColor}>{currentOrder.shutterColor}</li>
                                     <li key={currentOrder.numberOfPieces}>{currentOrder.numberOfPieces}</li>
+                                    <li key={currentOrder.assembled} onClick={this.handleAssembling.bind(this,order._id,orderIndex,currentOrder.assembled)}>{currentOrder.assembled}</li>
                                     {this.listParts(currentOrder.shutterMaterial,currentOrder.numberOfPieces) }
                                 </div>
                             )}
