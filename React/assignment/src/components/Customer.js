@@ -1,6 +1,5 @@
 import React from "react"
 import SubmitOrder from "./SubmitOrder";
-import ListOrders from "./ListOrders";
 import Worker from "./Worker";
 
 const shutters=[
@@ -55,6 +54,7 @@ class Customer extends React.Component{
             <div>
                 <SubmitOrder shutters={this.state.Shutter} colors={this.state.Colors}/>
                 {/*<ListOrders orders={this.props.orders}/>*/}
+                <Worker orders={this.props.orders} shutters={this.state.Shutter}/>
             </div>
         )
 

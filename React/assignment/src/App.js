@@ -7,6 +7,9 @@ import Worker from "./components/Worker";
 
 class App extends React.Component{
     //TODO
+    //ENDPOINTOT ADNI A SHUTTEREKNEK
+    //MÉG VALAMI PARTSOKAT HOZZÁADNI, VISZONT MAJD A WORKER.JS-BEN IS ÁT KELL ALAKÍTANI A MEGJELENÍTÉST
+
     //AXIOS HÍVÁST ÁTÍRNI FETCHRE
     //KISZERVEZNI DISPATHERES CUCCRA
 
@@ -30,7 +33,7 @@ class App extends React.Component{
         return (
             <div>
                 <Customer orders={this.state.orders}/>
-                <Worker orders={this.state.orders}/>
+
             </div>
 
         );

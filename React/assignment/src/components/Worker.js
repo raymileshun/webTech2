@@ -60,8 +60,27 @@ class Worker extends React.Component{
         this.setState({ordersForOneCustomer:[]})
     }
 
+    listParts(shutterMaterial, numberOfOrderedPieces){
+        const shutters = this.props.shutters.filter(shutter=>shutter.material===shutterMaterial);
+        return(
+         <ul>
+             {shutters.map((shutter) =>
+                 <div>
+                <li key={shutter.parts[0].requiredPart}>{shutter.parts[0].requiredPart}</li>
+                <li key={shutter.parts[0].additionalPart}>{shutter.parts[0].additionalPartPieces} X {numberOfOrderedPieces} {shutter.parts[0].additionalPart}</li>
+                     {/*<li key={shutter.parts[0].additionalPart}>{shutter.parts[0].additionalPartPieces * numberOfOrderedPieces} {shutter.parts[0].additionalPart}</li>*/}
+                 </div>
+            )}
+         </ul>
+        )
+    }
+
 
     renderOrderView(orders){
+        if(this.props.orders.length===0){
+            return <div>NINCSENEK MEGRENDELÉSEK</div>
+        }
+
         return (
             <div>
                 <h1>FOSTOS</h1>
@@ -71,6 +90,19 @@ class Worker extends React.Component{
                             <li key={order.order.customerName}>{order.order.customerName}</li>
                             <li key={order.order.phoneNumber}>{order.order.phoneNumber}</li>
                             <li key={order.order.address}>{order.order.address}</li>
+                            <ul>
+                            { order.order.orders.map(currentOrder =>
+                                <div>
+                                    <li key={currentOrder.windowType}>{currentOrder.windowType}</li>
+                                    <li key={currentOrder.windowWidth}>{currentOrder.windowWidth}</li>
+                                    <li key={currentOrder.windowHeight}>{currentOrder.windowHeight}</li>
+                                    <li key={currentOrder.shutterMaterial}>{currentOrder.shutterMaterial}</li>
+                                    <li key={currentOrder.shutterColor}>{currentOrder.shutterColor}</li>
+                                    <li key={currentOrder.numberOfPieces}>{currentOrder.numberOfPieces}</li>
+                                    {this.listParts(currentOrder.shutterMaterial,currentOrder.numberOfPieces) }
+                                </div>
+                            )}
+                            </ul>
                         </div>
                     )}
                 </ul>
@@ -78,6 +110,8 @@ class Worker extends React.Component{
             </div>
         )
     }
+
+
 
     render() {
         return <div>
