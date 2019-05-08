@@ -16,20 +16,24 @@ class Worker extends React.Component{
     }
 
     handleChange(event) {
+        if(this.state.submitSearch === "true"){
+            this.setState({[event.target.name]: this.state[event.target.name] })
+            return;
+        }
         this.setState({[event.target.name]: event.target.value});
     }
 
 
 
     loadOrdersForCustomer(customerName) {
+        if(customerName===undefined||customerName===""){
+            return this.renderOrderView(this.props.orders)
+        }
         const ordersForCustomer = this.props.orders.filter(order=>order.order.customerName===customerName);
         ordersForCustomer.map((order) =>
             this.state.ordersForOneCustomer.push(order)
         )
         return this.renderOrderView(this.state.ordersForOneCustomer)
-
-
-        return;
     }
 
     orderHandler(){
@@ -37,13 +41,23 @@ class Worker extends React.Component{
             return this.renderOrderView(this.props.orders)
         } else{
             return this.loadOrdersForCustomer(this.state.searchParameter)
-            this.setState({submitSearch:"false"})
-
         }
     }
 
     handleSearch(){
+        if(this.state.ordersForOneCustomer.length!==0){
+            return this.setState({ordersForOneCustomer:[]})
+        }
+        if(this.state.searchParameter===""){
+            return this.setState({submitSearch: "false"})
+        }
         return this.setState({submitSearch: "true"})
+    }
+
+    handleReset(){
+        this.setState({submitSearch: "false"})
+        this.setState({searchParameter: ""})
+        this.setState({ordersForOneCustomer:[]})
     }
 
 
@@ -69,8 +83,9 @@ class Worker extends React.Component{
         return <div>
             <h1>WORKER</h1>
             <div>
-                Felhasználó keresése: <input type="text" onChange={this.handleChange.bind(this)} name="searchParameter" required/>
+                Felhasználó keresése: <input type="text" value={this.state.searchParameter} onChange={this.handleChange.bind(this)} name="searchParameter" required/>
                 <button onClick={() => this.handleSearch()}>KERESÉS!</button>
+                <button onClick={() => this.handleReset()}>VISSZAÁLLÍTÁS</button>
             </div>
             <div>
                 Rendelések: {this.orderHandler()}
