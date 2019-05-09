@@ -32,9 +32,9 @@ class App extends React.Component{
         this.loadOrders()
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        this.loadOrders()
-    }
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     this.loadOrders()
+    // }
 
 
     render() {

@@ -5,6 +5,9 @@ class Worker extends React.Component{
     //TODO
     //Assemblenél majd egy piros gomb ha még nincs összeszerelve, és egy zöld hogyha összevan
 
+    //COMPONENT UPDATET MEG KELL OLDANI
+    //Pár dolog lehet hogy ReactDOM.renderrel jobb lesz
+
     constructor(props){
         super(props)
 
@@ -14,6 +17,17 @@ class Worker extends React.Component{
         }
         this.handleSearch = this.handleSearch.bind(this);
     }
+
+    // loadOrders(){
+    //     axios.get(`http://localhost:8090/listOrders`)
+    //         .then(res => {
+    //             this.setState({ orders: res.data});
+    //         })
+    // }
+    //
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //     this.loadOrders()
+    // }
 
 
     handleChange(event) {
