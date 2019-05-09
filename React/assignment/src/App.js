@@ -30,12 +30,12 @@ class App extends React.Component{
 
     componentDidMount() {
         this.loadOrders()
-
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.loadOrders()
     }
+
 
     render() {
         return (

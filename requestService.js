@@ -23,14 +23,14 @@ function RequestService(requestDAO){
 
 RequestService.prototype.listOrders = function(callback){
     this.requestDAO.getOrders((requests) => {
-        logger.info(`${requests.length} requests were found!`)
+        //logger.info(`${requests.length} requests were found!`)
         callback(requests)
     })
 }
 
 RequestService.prototype.listOrdersOfCustomer = function(customerName, callback){
     this.requestDAO.listOrdersOfCustomer(customerName, (requests) =>{
-        logger.info(`${requests.length} requests were found!`)
+        //logger.info(`${requests.length} requests were found!`)
         callback(requests)
     })
 }

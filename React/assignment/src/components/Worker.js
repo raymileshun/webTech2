@@ -3,19 +3,18 @@ import axios from "axios"
 
 class Worker extends React.Component{
     //TODO
-        //ASSEMBLE CLICK MEGCSINÁLÁSA (isAssembled belerakása a submitOrderbe is)
     //Assemblenél majd egy piros gomb ha még nincs összeszerelve, és egy zöld hogyha összevan
 
     constructor(props){
         super(props)
 
         this.state={
-            ordersForOneCustomer:[],
             searchParameter:"",
             submitSearch:"false"
         }
         this.handleSearch = this.handleSearch.bind(this);
     }
+
 
     handleChange(event) {
         if(this.state.submitSearch === "true"){
@@ -27,15 +26,13 @@ class Worker extends React.Component{
 
 
 
+
     loadOrdersForCustomer(customerName) {
         if(customerName===undefined||customerName===""){
             return this.renderOrderView(this.props.orders)
         }
-        const ordersForCustomer = this.props.orders.filter(order=>order.order.customerName===customerName);
-        ordersForCustomer.map((order) =>
-            this.state.ordersForOneCustomer.push(order)
-        )
-        return this.renderOrderView(this.state.ordersForOneCustomer)
+        let ordersForCustomer = this.props.orders.filter(order=>order.order.customerName===customerName);
+        return this.renderOrderView(ordersForCustomer)
     }
 
     orderHandler(){
@@ -47,19 +44,15 @@ class Worker extends React.Component{
     }
 
     handleSearch(){
-        if(this.state.ordersForOneCustomer.length!==0){
-            return this.setState({ordersForOneCustomer:[]})
-        }
         if(this.state.searchParameter===""){
-            return this.setState({submitSearch: "false"})
+            this.setState({submitSearch: "false"})
         }
-        return this.setState({submitSearch: "true"})
+        this.setState({submitSearch: "true"})
     }
 
     handleReset(){
         this.setState({submitSearch: "false"})
         this.setState({searchParameter: ""})
-        this.setState({ordersForOneCustomer:[]})
     }
 
     listParts(shutterMaterial, numberOfOrderedPieces){
@@ -79,7 +72,6 @@ class Worker extends React.Component{
 
 
     handleAssembling(fullOrderId,currentOrderId, alreadyAssembled){
-        console.log(currentOrderId)
         if(alreadyAssembled==="true"){
             alert("Ez már össze van szerelve!")
             return;
