@@ -74,10 +74,27 @@ function updateOrder(orderid,index,callback){
     })
 }
 
+function updateOrderInstallation(orderId,date,callback){
+    var client = new MongoClient(url);
+    client.connect((err)=>{
+        assert.equal(null, err);
+        const db = client.db(dbName);
+        const collection= db.collection(orderCollectionName);
+        const query =   { _id: ObjectId(orderId) };
+        const setter = {["order.installationDate"]:date};
+        collection.updateOne(query,{$set:setter}, (err,r)=> {
+            if (err) console.log(err);
+            callback();
+            client.close();
+        });
+    })
+}
+
 
 module.exports = {
     "createRequest" : createRequest,
     "getOrders": getOrders,
     "listOrdersOfCustomer": listOrdersOfCustomer,
-    "updateOrderWithAssembling":updateOrder
+    "updateOrderWithAssembling":updateOrder,
+    "updateOrderWithInstallationDate":updateOrderInstallation
 }

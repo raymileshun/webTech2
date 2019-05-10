@@ -1,5 +1,6 @@
 import React from "react"
 import ReactDOM from 'react-dom'
+import axios from "axios";
 
 class Manager extends React.Component{
 
@@ -10,7 +11,7 @@ class Manager extends React.Component{
             year: new Date().getFullYear(),
             month: "1",
             day: "1",
-            time:"",
+            time:"11:00",
             organizationInProcess: "false"
         };
     }
@@ -25,8 +26,14 @@ class Manager extends React.Component{
         return this.state.day <= daysInMonth;
     }
 
-    submitOrganization(orderIndex,year,month,day){
+    submitOrganization(orderIndex,orderId,year,month,day,time){
         console.log(orderIndex+" "+year+" "+" "+month+" "+day)
+        let date=year+"-"+month+"-"+day+"  "+time;
+
+        axios.post(`http://localhost:8090/submitInstallationDate/${orderId}/${date}`)
+            .then(res => {alert("Megszervezve!")})
+            .catch(e => {alert(e  + "\n\nValami gond volt a megszervezéssel")});
+
         let getDateElement = "date"+orderIndex;
         let getButtonElement="button"+orderIndex;
         let emptyElement="";
@@ -36,13 +43,14 @@ class Manager extends React.Component{
         this.setState({year:new Date().getFullYear()})
         this.setState({month:"1"})
         this.setState({day:"1"})
+        this.setState({time:"11:00"})
     }
 
-    handleOrganization(orderIndex){
+    handleOrganization(orderIndex,orderId){
         let date=new Date()
         let isDayValid=this.validDay()
         let today=String(date.getDate()).padStart(2, '0')
-        let isDayLower=parseInt(this.state.day)<parseInt(today)
+        let isDayLower=parseInt(this.state.day)<=parseInt(today)
         let isMonthEqual=parseInt(this.state.month)===parseInt(date.getMonth()+1)
         if(this.state.year<date.getFullYear())  {
             alert("Normális évet adjon meg!")
@@ -50,26 +58,26 @@ class Manager extends React.Component{
         }
         if(this.state.year===date.getFullYear()) {
             if (this.state.month < date.getMonth()){
-                alert("Normális dátumot adjon meg!")
+                alert("Ez a hónap már elmúlt!")
                 return;
             }
             if((isMonthEqual&&isDayLower)|| isDayValid==="false" ){
-                alert("Normális dátumot adjon meg!")
+                alert("Rossz napot adott meg!")
                 return;
             }
         } else{
             if (isDayValid==="false") {
-                alert("Normális dátumot adjon meg!")
+                alert("Nem jó a nap!")
                 return;
             }
         }
 
-        this.submitOrganization(orderIndex,this.state.year,this.state.month,this.state.day)
+        this.submitOrganization(orderIndex,orderId,this.state.year,this.state.month,this.state.day,this.state.time)
 
     }
 
 
-    datePicking(orderIndex){
+    datePicking(orderIndex,orderId){
         if(this.state.organizationInProcess==="true"){
             alert("Már egy beszerelés szervezése folyamatban van!")
             return;
@@ -83,6 +91,10 @@ class Manager extends React.Component{
         let daysArray=[];
         for(let i=1;i<32;i++){
             daysArray.push(i)
+        }
+        let hoursArray=[];
+        for(let i=11;i<19;i++){
+            hoursArray.push(i+":00")
         }
 
         let dateElement= <div>
@@ -100,10 +112,15 @@ class Manager extends React.Component{
                         <option value={day}>{day}</option>
                     )}
             </select>
+            <select name="time" id="organizationHour" onChange={this.handleChange.bind(this)}>
+                {hoursArray.map(hour =>
+                    <option value={hour}>{hour}</option>
+                )}
+            </select>
         </div>
 
         let buttonElement=<div>
-            <button onClick={this.handleOrganization.bind(this,orderIndex)}>SZERVEZÉS</button>
+            <button onClick={this.handleOrganization.bind(this,orderIndex,orderId)}>SZERVEZÉS</button>
         </div>
 
         let getDateElement = "date"+orderIndex;
@@ -135,7 +152,7 @@ class Manager extends React.Component{
                                 </div>
                             )}
                         </ul>
-                        <button onClick={this.datePicking.bind(this,orderIndex)}>Beszerelés megszervezése</button>
+                        <button onClick={this.datePicking.bind(this,orderIndex,order._id)}>Beszerelés megszervezése</button>
                         <div id={"date"+orderIndex}></div>
                         <div id={"button"+orderIndex}></div>
                     </div>

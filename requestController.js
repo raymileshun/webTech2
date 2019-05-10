@@ -51,6 +51,10 @@ router.post('/submitOrder/:orderId/:currentOrderIndex', (req,res) =>{
     requestService.updateOrderWithAssembling(req.params.orderId,req.params.currentOrderIndex,() => {res.status(200).send("Összeszerelve")})
 });
 
+router.post('/submitInstallationDate/:orderId/:installationDate', (req,res) =>{
+    requestService.updateOrderWithInstallationDate(req.params.orderId,req.params.installationDate,() => {res.status(200).send("Szerelési időpont feljegyezve!")})
+});
+
 function getCurrentJobId(requests){
     if(requests.length==0){
         return '1';

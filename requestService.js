@@ -40,6 +40,10 @@ RequestService.prototype.updateOrderWithAssembling = function(ordersId, orderInd
     this.requestDAO.updateOrderWithAssembling(ordersId, orderIndex, ()=>{success()})
 };
 
+RequestService.prototype.updateOrderWithInstallationDate = function(orderId,date, success){
+    this.requestDAO.updateOrderWithInstallationDate(orderId,date, ()=>{success()})
+};
+
 
 RequestService.prototype.submitRequest = function(request, success, error){
     this.requestDAO.createRequest(request, ()=>{success()})
