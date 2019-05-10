@@ -1,9 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Customer from "./components/Customer";
 import axios from "axios";
 import Worker from "./components/Worker";
+
 
 class App extends React.Component{
     //TODO
@@ -24,7 +24,7 @@ class App extends React.Component{
     loadOrders(){
         axios.get(`http://localhost:8090/listOrders`)
             .then(res => {
-                this.setState({ orders: res.data});
+                 this.setState({ orders: res.data});
             })
     }
 
@@ -40,12 +40,31 @@ class App extends React.Component{
     render() {
         return (
             <div>
+                {console.log("App.js")}
                 <Customer orders={this.state.orders}/>
-
             </div>
 
         );
     }
 }
+
+
+// function loadOrders(){
+//         axios.get(`http://localhost:8090/listOrders`)
+//             .then(res => {
+//                 return res.data
+//                 // this.setState({ orders: res.data});
+//             })
+//     }
+//
+// function App(){
+//     let orders=loadOrders()
+//     console.log(orders)
+//     return(
+//         <div>
+//             <Customer orders={orders} loadOrders={loadOrders()}/>
+//         </div>
+//     )
+// }
 
 export default App;

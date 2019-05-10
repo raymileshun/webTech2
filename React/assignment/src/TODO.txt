@@ -1,0 +1,21 @@
+axios -> fetch
+
+componentupdate with loadOrder betöltés. (Minden oldalra kell majd)
+
+Customer és submitorder komponens különszervezése
+
+endpoint a shuttereknek (ja és adathozzáadás és csere is kell)
+
+konzolos hibák kijavítása (keyek adása mappinghez)
+
+lehet hogy több helyre kell majd ReactDOM.render
+
+statisztika megjelenítése
+
+check payment? megjelenítése
+
+
+
+TESZTELÉS
+
+DISZPÉCSERES ÁTALAKÍTÁS

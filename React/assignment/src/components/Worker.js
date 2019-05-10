@@ -137,6 +137,7 @@ class Worker extends React.Component{
 
     render() {
         return <div>
+            {console.log("Worker.js")}
             <h1>WORKER</h1>
             <div>
                 Felhasználó keresése: <input type="text" value={this.state.searchParameter} onChange={this.handleChange.bind(this)} name="searchParameter" required/>

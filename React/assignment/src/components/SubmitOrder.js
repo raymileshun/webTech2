@@ -173,7 +173,8 @@ class SubmitOrder extends React.Component {
                 phoneNumber: this.state.phoneNumber,
                 address: this.state.address,
                 orders: this.state.orders,
-                totalPrice: parseInt(ordersPrice)
+                totalPrice: parseInt(ordersPrice),
+                installationDate:"Még nincs megadva"
             }
         };
 
@@ -193,6 +194,7 @@ class SubmitOrder extends React.Component {
     render() {
         return (
             <div>
+                {console.log("SubmitOrder.js")}
                 <div>
                     Neve: <input type="text" value={this.state.customerName} onChange={this.handleChange.bind(this)} name="customerName" required/>
                 </div>

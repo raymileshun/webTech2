@@ -16,6 +16,21 @@ class Manager extends React.Component{
         };
     }
 
+    generateInvoice(orderIndex,orderId,customerName,phoneNumber,address,installationDate,price){
+        let invoice=<div>
+            <table>
+                <tbody>
+                <tr><td>Vásárló neve: {customerName}</td></tr>
+                <tr><td>Telefonszáma: {phoneNumber}</td><td>Címe: {address}</td></tr>
+                <tr><td>Beszerelés időpontja: {installationDate}</td></tr>
+                <tr><td>Fizetendő összeg: {price} HUF</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        let getInvoiceElement = "invoice"+orderIndex;
+        ReactDOM.render(invoice, document.getElementById(getInvoiceElement));
+    }
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value});
@@ -27,7 +42,6 @@ class Manager extends React.Component{
     }
 
     submitOrganization(orderIndex,orderId,year,month,day,time){
-        console.log(orderIndex+" "+year+" "+" "+month+" "+day)
         let date=year+"-"+month+"-"+day+"  "+time;
 
         axios.post(`http://localhost:8090/submitInstallationDate/${orderId}/${date}`)
@@ -132,6 +146,7 @@ class Manager extends React.Component{
 
     render() {
         return <div>
+            {console.log("Manager.js")}
             <h1>MANAGER</h1>
             <ul>
                 { this.props.orders.map((order,orderIndex) =>
@@ -155,10 +170,11 @@ class Manager extends React.Component{
                         <button onClick={this.datePicking.bind(this,orderIndex,order._id)}>Beszerelés megszervezése</button>
                         <div id={"date"+orderIndex}></div>
                         <div id={"button"+orderIndex}></div>
+                        <button onClick={this.generateInvoice.bind(this,orderIndex,order._id,order.order.customerName,order.order.phoneNumber,order.order.address,order.order.installationDate,order.order.totalPrice)}>Számla elkészítése</button>
+                        <div id={"invoice"+orderIndex}></div>
                     </div>
                 )}
             </ul>
-
         </div>
 
     }
