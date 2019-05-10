@@ -210,9 +210,9 @@ class SubmitOrder extends React.Component {
                     Ablak típusa:
                     <select name="windowType" value={this.state.currentOrder.windowType} onChange={this.handleCurrentOrderChange.bind(this)}>
                         <option value="Egyszárnyú">Egyszárnyú</option>
-                        <option value="Egyszárnyú_bukó">Egyszárnyú bukó</option>
+                        <option value="Egyszárnyú bukó">Egyszárnyú bukó</option>
                         <option value="Kétszárnyú">Kétszárnyú</option>
-                        <option value="Kétszárnyú_bukó">Kétszárnyú bukó</option>
+                        <option value="Kétszárnyú bukó">Kétszárnyú bukó</option>
                     </select>
                 </div>
                 <div>
