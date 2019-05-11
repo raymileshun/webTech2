@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import Customer from "./components/Customer";
 import axios from "axios";
-import Worker from "./components/Worker";
 
 
 class App extends React.Component{

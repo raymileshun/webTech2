@@ -96,6 +96,13 @@ class Worker extends React.Component{
 
     }
 
+    renderAssembleButton(orderId,orderIndex,isAssembled){
+        if(isAssembled==="true"){
+            return <li key={orderId+isAssembled} className="btn btn-success assembleButton" onClick={this.handleAssembling.bind(this,orderId,orderIndex,isAssembled)}>Összeszerelve</li>
+        }
+        return <li key={orderId+isAssembled} className="btn btn-danger assembleButton" onClick={this.handleAssembling.bind(this,orderId,orderIndex,isAssembled)}>Még nincs összeszerelve!</li>
+    }
+
 
     renderOrderView(orders){
         if(this.props.orders.length===0){
@@ -120,7 +127,7 @@ class Worker extends React.Component{
                                     <li key={currentOrder.shutterMaterial}>{currentOrder.shutterMaterial}</li>
                                     <li key={currentOrder.shutterColor}>{currentOrder.shutterColor}</li>
                                     <li key={currentOrder.numberOfPieces}>{currentOrder.numberOfPieces}</li>
-                                    <li key={currentOrder.assembled} onClick={this.handleAssembling.bind(this,order._id,orderIndex,currentOrder.assembled)}>{currentOrder.assembled}</li>
+                                    {this.renderAssembleButton(order._id,orderIndex,currentOrder.assembled)}
                                     {this.listParts(currentOrder.shutterMaterial,currentOrder.numberOfPieces) }
                                 </div>
                             )}

@@ -1,0 +1,49 @@
+
+.colorBanner {
+  width: 100px;
+  height: 100px;
+}
+
+.orderPicture {
+  width: 120px;
+  height: 120px;
+}
+
+.tableForOrders {
+  border-collapse: separate;
+  border-spacing: 10px;
+}
+
+.assembleButton:hover {
+  cursor: pointer;
+}
+
+.submitButtons {
+  padding-left: 35%;
+}
+
+.shoppingCartTable {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.shoppingCartTable td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.shoppingCartIcon {
+    position: absolute;
+    padding-left: 90%;
+    margin-top: -70px;
+}
+
+.shoppingCartOrderNumber{
+  position: absolute;
+  padding-left: 92%;
+  margin-top: -125px;
+
+
+}

@@ -7,9 +7,12 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.0",
     "axios": "^0.18.0",
-    "react-bar-chart": "^0.1.2"
+    "react-bar-chart": "^0.1.2",
+    "bootstrap": "^4.3.1",
+    "node-sass": "^4.12.0"
   },
   "scripts": {
+    "css": "sass scss/style.scss public/css/style.css",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

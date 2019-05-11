@@ -21,7 +21,6 @@ class Statistics extends React.Component{
     }
 
     loadStatistics() {
-        let ordersForCustomer = this.state.orders.filter(order => order.order.orders.shutterMaterial=== "műanyag");
         let shutterMaterials=[]
         this.state.orders.map((order) =>
             order.order.orders.map((shutter)=>

@@ -70,9 +70,9 @@ class Customer extends React.Component{
                 {console.log("Customer.js")}
                 <SubmitOrder shutters={this.state.Shutter} colors={this.state.Colors}/>
                 {/*<ListOrders orders={this.props.orders}/>*/}
-                {/*<Worker orders={this.props.orders} shutters={this.state.Shutter}/>*/}
+                <Worker orders={this.props.orders} shutters={this.state.Shutter}/>
                 {/*<Manager orders={this.props.orders} />*/}
-                <Statistics orders={this.props.orders}/>
+                {/*<Statistics orders={this.props.orders}/>*/}
             </div>
         )
 

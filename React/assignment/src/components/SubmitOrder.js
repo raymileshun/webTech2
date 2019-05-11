@@ -7,7 +7,7 @@ class SubmitOrder extends React.Component {
 //TODO
     //customer adattagokat és metódusokat a Customer.js-be átrakni (name, address) és majd a hivatkozásokat is this.state-ről át kell
     //írni this.propsra.
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -23,19 +23,18 @@ class SubmitOrder extends React.Component {
                 numberOfPieces: "1",
                 orderPrice: ""
             },
-            totalPrice :"",
+            totalPrice: "",
             orderInProcess: "no",
             orders: [],
-            orderRejected:"false"
+            orderRejected: "false"
         }
     }
 
 
-
     handleChange(event) {
         let fieldName = event.target.name
-        if(this.state.orderInProcess === "yes"){
-            this.setState({[event.target.name]: this.state[fieldName] })
+        if (this.state.orderInProcess === "yes") {
+            this.setState({[event.target.name]: this.state[fieldName]})
             return;
         }
 
@@ -50,49 +49,56 @@ class SubmitOrder extends React.Component {
         return (new RegExp(/^[0-9]{11}$/).test(phoneNumber))
     }
 
-    getShoppingCart(){
-        if(this.state.orders.length===0){
+    getShoppingCart() {
+        if (this.state.orders.length === 0) {
             return <h1>A kosár üres!</h1>
-        } else{
-            return  <ShoppingCart orders={this.state.orders}/>
+        } else {
+            return <ShoppingCart orders={this.state.orders}/>
         }
 
     }
 
     submitOrder = (orderData) => {
         axios.post('http://localhost:8090/submitOrder', orderData)
-            .then(res => {this.setState({orderRejected: "false"});alert("Order submitted"); })
+            .then(res => {
+                this.setState({orderRejected: "false"});
+                alert("Order submitted");
+            })
             .catch(e => {
-                alert(e  + " order failed.");
+                alert(e + " order failed.");
                 this.setState({orderRejected: "true"});
             });
     };
 
-    getPriceForCurrentOrder(shutterMaterial){
+    getPriceForCurrentOrder(shutterMaterial) {
         switch (shutterMaterial) {
-            case "acél": return this.props.shutters[0].price;
-            case "műanyag": return this.props.shutters[1].price
-            case "fa": return this.props.shutters[2].price
-            default: return "2000"
+            case "acél":
+                return this.props.shutters[0].price;
+            case "műanyag":
+                return this.props.shutters[1].price
+            case "fa":
+                return this.props.shutters[2].price
+            default:
+                return "2000"
         }
     }
 
-    getFinalPrice(){
-        if(this.state.orders.length !==0){
-            let currentPrice=parseInt(this.state.currentOrder.numberOfPieces)*parseInt(this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial))
-            let ordersPrice =0;
+    getFinalPrice() {
+        if (this.state.orders.length !== 0) {
+            let currentPrice = parseInt(this.state.currentOrder.numberOfPieces) * parseInt(this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial))
+            let ordersPrice = 0;
             (this.state.orders.map((order) =>
-                ordersPrice+=parseInt(order.orderPrice)
+                ordersPrice += parseInt(order.orderPrice)
             ))
-            return parseInt(currentPrice)+parseInt(ordersPrice)
+            return parseInt(currentPrice) + parseInt(ordersPrice)
         } else {
-            return parseInt(this.state.currentOrder.numberOfPieces)*parseInt(this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial))
+            return parseInt(this.state.currentOrder.numberOfPieces) * parseInt(this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial))
         }
     }
 
     //1-es hogy a cutomerNamet is nullázza, kettes hogy csak az orderek mezőit
-    resetValues(mode){
-        let values={
+    resetValues(mode) {
+        let values = {
             windowWidth: "",
             windowHeight: "",
             numberOfPieces: 1
@@ -128,7 +134,7 @@ class SubmitOrder extends React.Component {
             return;
         }
 
-        if (this.state.currentOrder.numberOfPieces === undefined || this.state.currentOrder.numberOfPieces=== "") {
+        if (this.state.currentOrder.numberOfPieces === undefined || this.state.currentOrder.numberOfPieces === "") {
             errors.push("Rendelés darabszáma")
         } else if (this.state.currentOrder.numberOfPieces < 1) {
             alert("Negatív rendelést nem adhat meg!");
@@ -159,13 +165,13 @@ class SubmitOrder extends React.Component {
 
 
     submit(event) {
-        if(this.state.orderInProcess==="no"){
+        if (this.state.orderInProcess === "no") {
             alert("Először adjon hozzá valamit a kosárhoz")
             return;
         }
-        let ordersPrice =0;
+        let ordersPrice = 0;
         (this.state.orders.map((order) =>
-            ordersPrice+=parseInt(order.orderPrice)
+            ordersPrice += parseInt(order.orderPrice)
         ))
         let orderData = {
             order: {
@@ -174,91 +180,249 @@ class SubmitOrder extends React.Component {
                 address: this.state.address,
                 orders: this.state.orders,
                 totalPrice: parseInt(ordersPrice),
-                installationDate:"Még nincs megadva"
+                installationDate: "Még nincs megadva"
             }
         };
 
 
         //alert(orderData.order.customerName);
         this.submitOrder(orderData);
-        if(this.state.orderRejected==="true" || this.state.orderRejected===""){
+        if (this.state.orderRejected === "true" || this.state.orderRejected === "") {
             return;
         }
         this.setState({orderInProcess: "no"})
         this.setState({orders: []})
 
+    }
 
+    renderOrderButton(){
+        if(this.state.orders.length===0){
+            return(
+                <button type="button" className="btn btn-primary btn-xl btn-danger rounded-pill mt-5"
+                           onClick={this.submit.bind(this)}>Rendelés megerősítése
+            </button>
+            )
+
+        }
+        return(
+        <button type="button" className="btn btn-primary btn-xl btn-success rounded-pill mt-5"
+                onClick={this.submit.bind(this)}>Rendelés megerősítése
+        </button>
+        )
+
+    }
+
+    renderShoppingCartImage(){
+
+        if(this.state.orders.length===0){
+           return <h3 className="shoppingCartOrderNumber"><span className="btn btn-danger rounded-pill mt-5">{this.state.orders.length}</span></h3>
+        }
+        return(
+        <h3 className="shoppingCartOrderNumber"><span className="btn btn-success rounded-pill mt-5">{this.state.orders.length}</span></h3>
+        )
     }
 
 
     render() {
         return (
+
             <div>
+
+                <header className="masthead text-white">
+                    <div className="masthead-content">
+                        <h2 className="masthead-subheading text-uppercase text-lg-left text-black-50 mb-0">OLCSÓ REDŐNY KFT</h2>
+                        <div>
+
+                        <i className="fas fa-shopping-cart fa-3x shoppingCartIcon"/>
+                        {this.renderShoppingCartImage()}
+                        </div>
+                        <div className="container">
+                            <table>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <kbd>Neve:</kbd>
+                                    </td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td className="col-md-2"><input className="form-control" type="text"
+                                                                    placeholder="Üsse be a nevét!"
+                                                                    value={this.state.customerName}
+                                                                    onChange={this.handleChange.bind(this)}
+                                                                    name="customerName"
+                                                                    required/></td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td>
+                                        <kbd>Telefonszáma:</kbd>
+                                    </td>
+                                    <td>
+                                        <kbd>Lakcíme:</kbd>
+                                    </td>
+                                </tr>
+                                <br/>
+                                <tr>
+                                    <td className="col-md-2">
+                                        <input type="tel" value={this.state.phoneNumber}
+                                               className="form-control"
+                                               placeholder="Üsse be a telefonszámát!"
+                                               onChange={this.handleChange.bind(this)}
+                                               name="phoneNumber"
+                                               pattern="[0-9]{11}" required/>
+                                    </td>
+                                    <td className="col-md-2">
+                                        <input type="text" value={this.state.address}
+                                               className="form-control"
+                                               placeholder="Üsse be a lakcímét!"
+                                               onChange={this.handleChange.bind(this)} name="address"
+                                               required/>
+                                    </td>
+                                </tr>
+                                <br/>
+                                </tbody>
+
+                            </table>
+                            <table className="tableForOrders">
+                                <tbody>
+                                <div>
+                                    <h2> {this.state.orders.length + 1}. rendelés </h2>
+                                </div>
+                                <div>
+                                    <h5 className="form-text text-black-50">Ablak típusa:</h5>
+                                    <tr>
+                                        <td className="col-form-label">
+                                            <select name="windowType" value={this.state.currentOrder.windowType}
+                                                    className="form-control"
+                                                    onChange={this.handleCurrentOrderChange.bind(this)}>
+                                                <option value="Egyszárnyú">Egyszárnyú</option>
+                                                <option value="Egyszárnyú bukó">Egyszárnyú bukó</option>
+                                                <option value="Kétszárnyú">Kétszárnyú</option>
+                                                <option value="Kétszárnyú bukó">Kétszárnyú bukó</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </div>
+                                <tr>
+                                    <td>
+                                        <h5 className="form-text text-black-50">Ablak szélessége:</h5>
+                                    </td>
+                                    <td>
+                                        <h5 className="form-text text-black-50">Ablak magassága:</h5>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td className="col-md-2">
+                                        <input type="number" min="1"
+                                               value={this.state.currentOrder.windowWidth}
+                                               className="form-control"
+                                               onChange={this.handleCurrentOrderChange.bind(this)}
+                                               name="windowWidth" required/>
+                                    </td>
+
+                                    <td className="col-md-2">
+                                        <input type="number" min="1"
+                                               value={this.state.currentOrder.windowHeight}
+                                               className="form-control"
+                                               onChange={this.handleCurrentOrderChange.bind(this)}
+                                               name="windowHeight" required/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <h5 className="form-text text-black-50">Anyag:</h5>
+                                    </td>
+                                    <td>
+                                        <h5 className="form-text text-black-50">Szín:</h5>
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td className="col-md-2">
+                                        <select name="shutterMaterial"
+                                                value={this.state.currentOrder.shutterMaterial}
+                                                className="form-control"
+                                                onChange={this.handleCurrentOrderChange.bind(this)}>
+                                            {this.props.shutters.map((shutter) =>
+                                                <option value={shutter.material}>{shutter.material}</option>
+                                            )}
+                                        </select>
+                                    </td>
+                                    <td className="col-md-2">
+                                        <select name="shutterColor"
+                                                value={this.state.currentOrder.shutterColor}
+                                                className="form-control"
+                                                onChange={this.handleCurrentOrderChange.bind(this)}>
+                                            {this.props.colors.map((color) =>
+                                                <option value={color}>{color}</option>
+                                            )}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <OrderPicture shutterMaterial={this.state.currentOrder.shutterMaterial}
+                                              shutterColor={this.state.currentOrder.shutterColor}/>
+                                <br/>
+                                <tr>
+                                    <td>
+                                        <h2>Vásárolni kívánt darabszám:
+                                            <input type="number" min="1"
+                                                   value={this.state.currentOrder.numberOfPieces}
+                                                   onChange={this.handleCurrentOrderChange.bind(this)}
+                                                   name="numberOfPieces"/>
+                                        </h2>
+                                    </td>
+                                    <td className="col-md-3">
+
+                                        <h4>Jelenlegi rendelés
+                                            összege: <kbd>{this.state.currentOrder.numberOfPieces * this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial)} HUF</kbd>
+                                        </h4>
+
+
+                                        <h5 className="form-text text-black-50">Végösszeg: <text
+                                            className="btn btn-success">{this.getFinalPrice()} HUF</text></h5>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="submitButtons">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <button type="button" className="btn btn-primary btn-xl rounded-pill mt-5"
+                                                onClick={this.addToCart.bind(this)}>Kosárhoz adás
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        {this.renderOrderButton()}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div className="bg-circle-1 bg-circle"></div>
+                    <div className="bg-circle-2 bg-circle"></div>
+                    <div className="bg-circle-3 bg-circle"></div>
+                    <div className="bg-circle-4 bg-circle"></div>
+                </header>
+
+
                 {console.log("SubmitOrder.js")}
-                <div>
-                    Neve: <input type="text" value={this.state.customerName} onChange={this.handleChange.bind(this)} name="customerName" required/>
-                </div>
-                <div>
-                    Telefonszám: <input type="tel" value={this.state.phoneNumber} onChange={this.handleChange.bind(this)} name="phoneNumber"
-                                        pattern="[0-9]{11}" required/>
-                </div>
-                <div>
-                    Lakcím: <input type="text" value={this.state.address} onChange={this.handleChange.bind(this)} name="address" required/>
-                </div>
-                <div>
-                    {this.state.orders.length+1}. rendelés
-                </div>
-                <div>
-                    Ablak típusa:
-                    <select name="windowType" value={this.state.currentOrder.windowType} onChange={this.handleCurrentOrderChange.bind(this)}>
-                        <option value="Egyszárnyú">Egyszárnyú</option>
-                        <option value="Egyszárnyú bukó">Egyszárnyú bukó</option>
-                        <option value="Kétszárnyú">Kétszárnyú</option>
-                        <option value="Kétszárnyú bukó">Kétszárnyú bukó</option>
-                    </select>
-                </div>
-                <div>
-                    Ablak szélessége: <input type="number" min="1" value={this.state.currentOrder.windowWidth} onChange={this.handleCurrentOrderChange.bind(this)}
-                                             name="windowWidth" required/>
-                </div>
-                <div>
-                    Ablak magassága: <input type="number" min="1" value={this.state.currentOrder.windowHeight} onChange={this.handleCurrentOrderChange.bind(this)}
-                                            name="windowHeight" required/>
-                </div>
-                <div>
-                    Redőny anyaga: <select name="shutterMaterial" value={this.state.currentOrder.shutterMaterial} onChange={this.handleCurrentOrderChange.bind(this)}>
-                    {this.props.shutters.map((shutter) =>
-                        <option value={shutter.material}>{shutter.material}</option>
-                    )}
-                </select>
-                </div>
-                <div>
-                    Redőny színe: <select name="shutterColor" value={this.state.currentOrder.shutterColor} onChange={this.handleCurrentOrderChange.bind(this)}>
-                    {this.props.colors.map((color) =>
-                        <option value={color}>{color}</option>
-                    )}
-                </select>
-                </div>
-                <div>
-                    <OrderPicture shutterMaterial={this.state.currentOrder.shutterMaterial}
-                                  shutterColor={this.state.currentOrder.shutterColor}/>
-                </div>
-                <div>
-                    Vásárolni kívánt darabszám: <input type="number" min="1" value={this.state.currentOrder.numberOfPieces} onChange={this.handleCurrentOrderChange.bind(this)}
-                                            name="numberOfPieces"/>
-                </div>
-                <div>
-                    Jelenlegi rendelés összege: {this.state.currentOrder.numberOfPieces * this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial)} HUF
-                </div>
-                <div>
-                   Végösszeg: {this.getFinalPrice()}
-                </div>
-                <div>
-                    Darabszám: {this.state.currentOrder.numberOfPieces}<br/>
+
+                <div id="shoppingCartContainer">
+                    <br/>
                     {this.getShoppingCart()}
                 </div>
-                <button type="button" onClick={this.addToCart.bind(this)}>Add order to cart.</button>
-                <button type="button" onClick={this.submit.bind(this)}>Submit order</button>
+
             </div>
         )
 

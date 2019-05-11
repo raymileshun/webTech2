@@ -1,15 +1,15 @@
 import React from "react"
 import steel from "../images/steel.jpg";
 import plastic from "../images/plastic.jpg";
-import wooden from "../images/wooden.jpg";
+import wooden from "../images/wooden.png";
 
 
-class OrderPicture extends React.Component{
-    constructor(props){
+class OrderPicture extends React.Component {
+    constructor(props) {
         super(props)
     }
 
-    getOrderImage(shutterMaterial){
+    getOrderImage(shutterMaterial) {
         switch (shutterMaterial) {
             case "acél":
                 return steel;
@@ -22,7 +22,7 @@ class OrderPicture extends React.Component{
         }
     }
 
-    getBannerColor(color){
+    getBannerColor(color) {
         switch (color) {
             case "fekete":
                 return {"background-color": "black"}
@@ -38,10 +38,14 @@ class OrderPicture extends React.Component{
     }
 
     render() {
-        return <div>
-        <img src={this.getOrderImage(this.props.shutterMaterial)} alt="OrderPicture" width="150"/>
-            <div style={this.getBannerColor(this.props.shutterColor)}>COLORBANNER</div>
-        </div>
+        return <tr>
+            <td className="col-md-2">
+                <img className="orderPicture" src={this.getOrderImage(this.props.shutterMaterial)} alt="OrderPicture"/>
+            </td>
+            <td className="col-md-2">
+                <div className="colorBanner" style={this.getBannerColor(this.props.shutterColor)}/>
+            </td>
+        </tr>
     }
 
 }

@@ -16,6 +16,8 @@ check payment? megjelenítése
 
 imagek áthelyezése
 
+!!Logolás valahova (úgy emlékszem hogy mindet kiszedtem)
+
 
 
 TESZTELÉS
