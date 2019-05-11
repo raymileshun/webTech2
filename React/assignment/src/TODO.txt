@@ -14,6 +14,8 @@ statisztika megjelenítése
 
 check payment? megjelenítése
 
+imagek áthelyezése
+
 
 
 TESZTELÉS

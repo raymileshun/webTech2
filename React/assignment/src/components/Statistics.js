@@ -1,5 +1,6 @@
 import React from "react"
 import axios from "axios";
+import BarChart from 'react-bar-chart';
 
 class Statistics extends React.Component{
 
@@ -27,16 +28,42 @@ class Statistics extends React.Component{
                 shutterMaterials.push(shutter.shutterMaterial)
             )
         )
-        let plasticShutters=shutterMaterials.filter(shutter=>shutter==="műanyag")
-        let steelShutters=shutterMaterials.filter(shutter=>shutter==="acél")
-        let woodenShutters=shutterMaterials.filter(shutter=>shutter==="fa")
+        let plasticShutters=shutterMaterials.filter(shutter=>shutter==="műanyag").length
+        let steelShutters=shutterMaterials.filter(shutter=>shutter==="acél").length
+        let woodenShutters=shutterMaterials.filter(shutter=>shutter==="fa").length
         console.log(plasticShutters)
         console.log(steelShutters)
         console.log(woodenShutters)
         console.log(shutterMaterials.length)
+        let dataForChart = [
+            {text: 'műanyag', value: plasticShutters},
+            {text: 'fa', value: woodenShutters},
+            {text: 'acél',value: steelShutters}
+        ];
+
+        let margin = {top: 20, right: 20, bottom: 30, left: 40};
 
         return <div>
-            {shutterMaterials.length}
+            <table>
+                <tbody>
+                <tr><td>Összes leadott rendelés: {shutterMaterials.length}</td></tr>
+                <tr>
+                    <th>Műanyag redőnyre leadott rendelések száma:</th>
+                    <th>Fa redőnyre adott rendelések száma:</th>
+                    <th>Acél redőny rendelések száma:</th>
+                </tr>
+                <tr>
+                    <td>{plasticShutters}</td>
+                    <td>{woodenShutters}</td>
+                    <td>{steelShutters}</td>
+                </tr>
+                </tbody>
+            </table>
+            <BarChart ylabel='Mennyiség'
+                      width={700}
+                      height={500}
+                      margin={margin}
+                      data={dataForChart}/>
         </div>
     }
 
