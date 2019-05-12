@@ -11,6 +11,7 @@ const url = 'mongodb://localhost:27017';
 //const dbName = 'shutterAssignment';
 const dbName = 'dummy';
 const orderCollectionName = 'orders';
+const shutterCollectionName = 'shutters';
 // Create a new MongoClient
 
 /* Mongo DB Ends*/
@@ -34,6 +35,10 @@ function readRequests(findParams, callback, collectionName){
 
 function getOrders(callback){
     readRequests({},(result) => {callback(result)},orderCollectionName)
+}
+
+function getShutters(callback){
+    readRequests({},(result) => {callback(result)},shutterCollectionName)
 }
 
 function listOrdersOfCustomer(customerName,callback){
@@ -96,5 +101,6 @@ module.exports = {
     "getOrders": getOrders,
     "listOrdersOfCustomer": listOrdersOfCustomer,
     "updateOrderWithAssembling":updateOrder,
-    "updateOrderWithInstallationDate":updateOrderInstallation
+    "updateOrderWithInstallationDate":updateOrderInstallation,
+    "getShutters":getShutters
 }

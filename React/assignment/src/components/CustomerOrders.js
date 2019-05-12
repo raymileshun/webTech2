@@ -1,20 +1,30 @@
 import React from "react"
+import axios from "axios";
+import ReactDOM from "react-dom"
 
-class ShoppingCart extends React.Component{
-    constructor(props){
-        super(props)
+class CustomerOrders extends React.Component{
+
+    constructor(props) {
+        super(props);
+
     }
 
+
+
     render() {
-        let i=1;
-        return(
-            <div>
-                <h4>Kosár tartalma:</h4>
-                <table className="shoppingCartTable">
-            {this.props.orders.map((order) =>
+        if(this.props.customerOrders.length===0){
+            return <div>
+                <h2>NINCSENEK EHHEZ A NÉVHEZ RENDELÉSEK</h2>
+            </div>
+        }
+        return<div>
+            <h4>Rendelések:</h4>
+            <table className="shoppingCartTable">
+                {this.props.customerOrders.map((currentOrder) =>
                     <div>
-                        <tr>
-                            <th rowSpan="2" className="text-center">{i++}. rendelés</th>
+                        {currentOrder.order.orders.map((order)=>
+                            <div>
+                        <tr className="table-dark">
                             <th>
                                 Ablak típusa
                             </th>
@@ -38,7 +48,7 @@ class ShoppingCart extends React.Component{
                             </th>
                         </tr>
 
-                        <tr>
+                        <tr className="table-danger">
                             <td>
                                 {order.windowType}
                             </td>
@@ -61,16 +71,16 @@ class ShoppingCart extends React.Component{
                                 {order.orderPrice}
                             </td>
                         </tr>
+                            </div>
+                            )}
                     </div>
                 )}
-                </table>
-                <br/>
+            </table>
+            <br/>
         </div>
-         )
+
     }
-
-
 
 }
 
-export default ShoppingCart;
+export default CustomerOrders

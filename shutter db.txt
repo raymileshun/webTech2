@@ -1,0 +1,3 @@
+db.shutters.insert({"shutter":{"material":"acél","price":"12000","parts":[{"requiredPart":"vezetõsín","additionalPart":"csavar","additionalPartPieces":"4"}]}})
+db.shutters.insert({"shutter":{"material":"mûanyag","price":"10000","parts":[{"requiredPart":"heveder","additionalPart":"vastag csavar","additionalPartPieces":"6"}]}})
+db.shutters.insert({"shutter":{"material":"fa","price":"8000","parts":[{"requiredPart":"redõnyléc","additionalPart":"anyacsavar","additionalPartPieces":"3"}]}})

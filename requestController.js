@@ -20,6 +20,13 @@ router.get('/listOrders',(req,res) =>{
     })
 })
 
+router.get('/listShutters',(req,res) =>{
+    requestService.listShutters((requests) =>{
+        //console.log(getCurrentOrderId(requests));
+        res.status(200).send(requests)
+    })
+})
+
 
 router.post('/submitOrder', (req,res) =>{
     if(req.body['order'] == undefined){

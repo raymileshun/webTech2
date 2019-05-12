@@ -41,8 +41,37 @@
 
 .shoppingCartOrderNumber {
   position: absolute;
-  padding-left: 92%;
-  margin-top: -125px;
+  padding-left: 3%;
+  margin-top: -105px;
+}
+
+a, a:visited, a:hover, a:active {
+  color: inherit;
+}
+
+.workerTableSpace {
+  margin-top: 30px;
+}
+
+.searchUserForm button {
+  margin-bottom: 30px;
+  margin-top: 25px;
+}
+
+.searchUserForm button {
+  margin-left: 10px;
+}
+
+.managerTable {
+  width: 60%;
+  margin-left: 6%;
+  margin-bottom: 4%;
+  font-size: 20px;
+}
+
+.statisticsTable {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /*# sourceMappingURL=style.css.map */

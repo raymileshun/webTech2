@@ -2,11 +2,13 @@ import React from "react"
 import OrderPicture from "./OrderPicture";
 import axios from "axios";
 import ShoppingCart from "./ShoppingCart";
+import CustomerOrders from "./CustomerOrders";
 
 class SubmitOrder extends React.Component {
 //TODO
     //customer adattagokat és metódusokat a Customer.js-be átrakni (name, address) és majd a hivatkozásokat is this.state-ről át kell
     //írni this.propsra.
+
     constructor(props) {
         super(props)
 
@@ -26,10 +28,22 @@ class SubmitOrder extends React.Component {
             totalPrice: "",
             orderInProcess: "no",
             orders: [],
-            orderRejected: "false"
+            shutters:[],
+            orderRejected: "false",
+            customerOrders:[]
         }
     }
 
+    loadShutters(){
+        axios.get(`/listShutters`)
+            .then(res => {
+                this.setState({ shutters: res.data});
+            })
+    }
+
+    componentDidMount() {
+        this.loadShutters()
+    }
 
     handleChange(event) {
         let fieldName = event.target.name
@@ -59,7 +73,7 @@ class SubmitOrder extends React.Component {
     }
 
     submitOrder = (orderData) => {
-        axios.post('http://localhost:8090/submitOrder', orderData)
+        axios.post('/submitOrder', orderData)
             .then(res => {
                 this.setState({orderRejected: "false"});
                 alert("Order submitted");
@@ -73,11 +87,11 @@ class SubmitOrder extends React.Component {
     getPriceForCurrentOrder(shutterMaterial) {
         switch (shutterMaterial) {
             case "acél":
-                return this.props.shutters[0].price;
+                return this.state.shutters[0].shutter.price;
             case "műanyag":
-                return this.props.shutters[1].price
+                return this.state.shutters[1].shutter.price
             case "fa":
-                return this.props.shutters[2].price
+                return this.state.shutters[2].shutter.price
             default:
                 return "2000"
         }
@@ -180,6 +194,7 @@ class SubmitOrder extends React.Component {
                 address: this.state.address,
                 orders: this.state.orders,
                 totalPrice: parseInt(ordersPrice),
+                isPaid:"false",
                 installationDate: "Még nincs megadva"
             }
         };
@@ -222,20 +237,35 @@ class SubmitOrder extends React.Component {
         )
     }
 
+    redirectToOrders(){
+        this.loadCustomerOrders()
+    }
+
+    loadCustomerOrders() {
+        axios.get(`/listOrders?customerName=`+this.state.customerName)
+            .then(res => {
+                this.setState({customerOrders: res.data});
+            })
+    }
+
 
     render() {
+        if(this.state.shutters.length===0){
+            return <div>Adatok betöltése</div>
+        }
+
         return (
-
             <div>
-
                 <header className="masthead text-white">
                     <div className="masthead-content">
                         <h2 className="masthead-subheading text-uppercase text-lg-left text-black-50 mb-0">OLCSÓ REDŐNY KFT</h2>
-                        <div>
-
-                        <i className="fas fa-shopping-cart fa-3x shoppingCartIcon"/>
+                        <div className="shoppingCartIcon">
+                            <a href="#shoppingCartContainer">
+                        <i className="fas fa-shopping-cart fa-3x"/>
                         {this.renderShoppingCartImage()}
+                            </a>
                         </div>
+
                         <div className="container">
                             <table>
                                 <tbody>
@@ -252,6 +282,10 @@ class SubmitOrder extends React.Component {
                                                                     onChange={this.handleChange.bind(this)}
                                                                     name="customerName"
                                                                     required/></td>
+                                    <td>
+                                        <button className="btn btn-primary" onClick={this.redirectToOrders.bind(this)}>Mutassa a rendeléseit</button>
+                                    </td>
+
                                 </tr>
                                 <br/>
                                 <tr>
@@ -347,8 +381,8 @@ class SubmitOrder extends React.Component {
                                                 value={this.state.currentOrder.shutterMaterial}
                                                 className="form-control"
                                                 onChange={this.handleCurrentOrderChange.bind(this)}>
-                                            {this.props.shutters.map((shutter) =>
-                                                <option value={shutter.material}>{shutter.material}</option>
+                                            {this.state.shutters.map((shutter) =>
+                                                <option value={shutter.shutter.material}>{shutter.shutter.material}</option>
                                             )}
                                         </select>
                                     </td>
@@ -421,6 +455,10 @@ class SubmitOrder extends React.Component {
                 <div id="shoppingCartContainer">
                     <br/>
                     {this.getShoppingCart()}
+                </div>
+                <div>
+
+                    <CustomerOrders customerOrders={this.state.customerOrders}/>
                 </div>
 
             </div>

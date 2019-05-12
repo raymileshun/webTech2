@@ -28,6 +28,13 @@ RequestService.prototype.listOrders = function(callback){
     })
 }
 
+RequestService.prototype.listShutters = function(callback){
+    this.requestDAO.getShutters((requests) => {
+        //logger.info(`${requests.length} requests were found!`)
+        callback(requests)
+    })
+}
+
 RequestService.prototype.listOrdersOfCustomer = function(customerName, callback){
     this.requestDAO.listOrdersOfCustomer(customerName, (requests) =>{
         //logger.info(`${requests.length} requests were found!`)

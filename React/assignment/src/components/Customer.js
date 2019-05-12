@@ -4,6 +4,7 @@ import Statistics from "./Statistics";
 import Worker from "./Worker";
 import Manager from "./Manager";
 import axios from "axios";
+import CustomerOrders from "./CustomerOrders";
 
 const shutters=[
     {
@@ -47,20 +48,8 @@ class Customer extends React.Component{
             Shutter:shutters,
             Colors:colors,
             orderRejected:"",
-            orders:[]
         }
     }
-
-    // loadOrders(){
-    //     axios.get(`http://localhost:8090/listOrders`)
-    //         .then(res => {
-    //             this.setState({ orders: res.data});
-    //         })
-    // }
-    //
-    // componentDidMount() {
-    //     this.loadOrders()
-    // }
 
 
 
@@ -68,11 +57,10 @@ class Customer extends React.Component{
         return(
             <div>
                 {console.log("Customer.js")}
-                <SubmitOrder shutters={this.state.Shutter} colors={this.state.Colors}/>
-                {/*<ListOrders orders={this.props.orders}/>*/}
-                <Worker orders={this.props.orders} shutters={this.state.Shutter}/>
-                {/*<Manager orders={this.props.orders} />*/}
-                {/*<Statistics orders={this.props.orders}/>*/}
+                <SubmitOrder colors={this.state.Colors}/>
+                {/*<Worker/>*/}
+                {/*<Manager/>*/}
+                {/*<Statistics/>*/}
             </div>
         )
 

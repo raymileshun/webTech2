@@ -14,7 +14,7 @@ class Statistics extends React.Component{
 
 
     loadOrders(){
-        axios.get(`http://localhost:8090/listOrders`)
+        axios.get(`/listOrders`)
             .then(res => {
                 this.setState({ orders: res.data});
             })
@@ -43,9 +43,9 @@ class Statistics extends React.Component{
         let margin = {top: 20, right: 20, bottom: 30, left: 40};
 
         return <div>
-            <table>
+            <h5>Összes leadott rendelés: <kbd>{shutterMaterials.length}</kbd></h5>
+            <table className="text-center align-content-center statisticsTable">
                 <tbody>
-                <tr><td>Összes leadott rendelés: {shutterMaterials.length}</td></tr>
                 <tr>
                     <th>Műanyag redőnyre leadott rendelések száma:</th>
                     <th>Fa redőnyre adott rendelések száma:</th>
@@ -58,6 +58,7 @@ class Statistics extends React.Component{
                 </tr>
                 </tbody>
             </table>
+
             <BarChart ylabel='Mennyiség'
                       width={700}
                       height={500}
@@ -72,7 +73,6 @@ class Statistics extends React.Component{
 
     render(){
         return <div>
-            <div>STATISTICS</div>
             {console.log("Statistics.js")}
             {this.loadStatistics()}
         </div>
