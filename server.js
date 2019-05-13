@@ -11,10 +11,10 @@ app.use(function(req, res, next) {
     next();
 });
 
-const requestController = require('./requestController')
+const requestController = require('./routes/requestController')
 app.use('/',requestController)
 
-app.use(express.static('public'))
+app.use(express.static('client/build'))
 
 app.listen(port, ()=>{
     console.log(`Server is listening on ${port}`)

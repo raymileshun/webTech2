@@ -3,6 +3,8 @@ import OrderPicture from "./OrderPicture";
 import axios from "axios";
 import ShoppingCart from "./ShoppingCart";
 import CustomerOrders from "./CustomerOrders";
+import OrderActions from "../actions/OrderActions";
+import OrderStore from "../store/OrderStore";
 
 class SubmitOrder extends React.Component {
 //TODO
@@ -35,15 +37,20 @@ class SubmitOrder extends React.Component {
         }
     }
 
-    loadShutters(){
-        axios.get(`/listShutters`)
-            .then(res => {
-                this.setState({ shutters: res.data});
-            })
+
+    onChange(){
+        this.setState({customerOrders : OrderStore.orders});
+        this.setState({shutters : OrderStore.shutters});
     }
 
+
     componentDidMount() {
-        this.loadShutters()
+        OrderStore.addChangeListener(this.onChange.bind(this));
+        OrderActions.listShutters()
+    }
+
+    componentWillUnmount(){
+        OrderStore.removeChangeListener(this.onChange);
     }
 
     handleChange(event) {
@@ -73,17 +80,6 @@ class SubmitOrder extends React.Component {
 
     }
 
-    submitOrder = (orderData) => {
-        axios.post('/submitOrder', orderData)
-            .then(res => {
-                this.setState({orderRejected: "false"});
-                alert("Order submitted");
-            })
-            .catch(e => {
-                alert(e + " order failed.");
-                this.setState({orderRejected: "true"});
-            });
-    };
 
     getPriceForCurrentOrder(shutterMaterial) {
         switch (shutterMaterial) {
@@ -109,16 +105,6 @@ class SubmitOrder extends React.Component {
         } else {
             return parseInt(this.state.currentOrder.numberOfPieces) * parseInt(this.getPriceForCurrentOrder(this.state.currentOrder.shutterMaterial))
         }
-    }
-
-    //1-es hogy a cutomerNamet is nullázza, kettes hogy csak az orderek mezőit
-    resetValues(mode) {
-        let values = {
-            windowWidth: "",
-            windowHeight: "",
-            numberOfPieces: 1
-        }
-        this.setState({currentOrder: {...this.state.currentOrder, values}})
     }
 
 
@@ -202,7 +188,8 @@ class SubmitOrder extends React.Component {
 
 
         //alert(orderData.order.customerName);
-        this.submitOrder(orderData);
+        OrderActions.submitOrder(orderData)
+        // this.submitOrder(orderData);
         if (this.state.orderRejected === "true" || this.state.orderRejected === "") {
             return;
         }
@@ -243,10 +230,7 @@ class SubmitOrder extends React.Component {
     }
 
     loadCustomerOrders() {
-        axios.get(`/listOrders?customerName=`+this.state.customerName)
-            .then(res => {
-                this.setState({customerOrders: res.data});
-            })
+        OrderActions.listOrdersForOneCustomer(this.state.customerName)
     }
 
 

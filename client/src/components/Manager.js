@@ -1,6 +1,8 @@
 import React from "react"
 import ReactDOM from 'react-dom'
 import axios from "axios";
+import OrderActions from "../actions/OrderActions";
+import OrderStore from "../store/OrderStore"
 
 class Manager extends React.Component {
 
@@ -27,15 +29,18 @@ class Manager extends React.Component {
         };
     }
 
-    loadOrders() {
-        axios.get(`/listOrders`)
-            .then(res => {
-                this.setState({orders: res.data});
-            })
+
+    onChange(){
+        this.setState({orders : OrderStore.orders});
     }
 
-    componentWillMount() {
-        this.loadOrders()
+    componentDidMount() {
+        OrderStore.addChangeListener(this.onChange.bind(this));
+        OrderActions.listOrders();
+    }
+
+    componentWillUnmount(){
+        OrderStore.removeChangeListener(this.onChange);
     }
 
 
@@ -71,14 +76,16 @@ class Manager extends React.Component {
 
     submitOrganization(orderIndex, orderId, time) {
         let date = this.state.currentDate + "  " + time
-        axios.post(`/submitInstallationDate/${orderId}/${date}`)
-            .then(res => {
-                alert("Megszervezve!");
-                this.loadOrders()
-            })
-            .catch(e => {
-                alert(e + "\n\nValami gond volt a megszervezéssel")
-            });
+        OrderActions.updateOrderWithInstallationDate(orderId,date)
+
+        // axios.post(`/submitInstallationDate/${orderId}/${date}`)
+        //     .then(res => {
+        //         alert("Megszervezve!");
+        //         this.loadOrders()
+        //     })
+        //     .catch(e => {
+        //         alert(e + "\n\nValami gond volt a megszervezéssel")
+        //     });
 
         this.setState({time: "11:00"})
     }

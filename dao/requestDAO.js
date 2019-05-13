@@ -1,5 +1,6 @@
 /* MongoDB Related Code */
 var ObjectId = require('mongodb').ObjectId;
+var RequestConstants = require('./requestConstants');
 
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
@@ -34,15 +35,15 @@ function readRequests(findParams, callback, collectionName){
 }
 
 function getOrders(callback){
-    readRequests({},(result) => {callback(result)},orderCollectionName)
+    readRequests({},(result) => {callback(result)},RequestConstants.collections.orders.collectionName)
 }
 
 function getShutters(callback){
-    readRequests({},(result) => {callback(result)},shutterCollectionName)
+    readRequests({},(result) => {callback(result)},RequestConstants.collections.shutters.collectionName)
 }
 
 function listOrdersOfCustomer(customerName,callback){
-    readRequests({"order.customerName" : customerName},(result) => {callback(result)},orderCollectionName)
+    readRequests({"order.customerName" : customerName},(result) => {callback(result)},RequestConstants.collections.orders.collectionName)
 }
 
 

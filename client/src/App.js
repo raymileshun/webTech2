@@ -1,10 +1,5 @@
 import React from 'react';
 import './App.css';
-import Customer from "./components/Customer";
-import axios from "axios";
-import Manager from "./components/Manager";
-import Worker from  "./components/Worker"
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 import SubmitOrder from "./components/SubmitOrder";
 
 const colors=[

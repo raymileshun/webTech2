@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
 
-var rs = require('./requestService')
+var rs = require('../service/requestService')
 const requestService = new rs()
 
 

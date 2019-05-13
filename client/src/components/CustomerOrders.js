@@ -1,6 +1,5 @@
 import React from "react"
-import axios from "axios";
-import ReactDOM from "react-dom"
+import OrderActions from "../actions/OrderActions"
 
 class CustomerOrders extends React.Component{
 
@@ -14,13 +13,7 @@ class CustomerOrders extends React.Component{
             alert("Ez már ki van fizetve")
             return;
         }
-        axios.post(`/submitPayment/${orderId}`)
-            .then(res => {
-                alert("Az összeget a beérkezésekor hagyjuk majd jóvá!")
-            })
-            .catch(e => {
-                alert(e + "\n\nValami gond volt a kifuzetéssel")
-            });
+        OrderActions.updateOrderWithPayment(orderId)
     }
 
     renderPaymentButton(orderId,isPaid){

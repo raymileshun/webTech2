@@ -15,7 +15,7 @@ function RequestService(requestDAO){
         this.requestDAO = requestDAO;
     }
     else {
-        this.requestDAO = require('./requestDAO')
+        this.requestDAO = require('../dao/requestDAO')
     }
 }
 

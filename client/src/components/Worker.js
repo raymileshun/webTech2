@@ -1,5 +1,7 @@
 import React from "react"
 import axios from "axios"
+import OrderActions from "../actions/OrderActions";
+import OrderStore from "../store/OrderStore"
 
 class Worker extends React.Component {
     //TODO
@@ -31,9 +33,22 @@ class Worker extends React.Component {
             })
     }
 
+    onChange(){
+        this.setState({orders : OrderStore.orders});
+        this.setState({shutters : OrderStore.shutters});
+
+    }
+
     componentWillMount() {
-        this.loadOrders()
-        this.loadShutters()
+        OrderStore.addChangeListener(this.onChange.bind(this));
+        OrderActions.listOrders();
+        OrderActions.listShutters();
+        //this.loadOrders()
+        //this.loadShutters()
+    }
+
+    componentWillUnmount(){
+        OrderStore.removeChangeListener(this.onChange);
     }
 
 
@@ -96,14 +111,7 @@ class Worker extends React.Component {
             alert("Ez már össze van szerelve!")
             return;
         }
-        axios.post(`/submitOrder/${fullOrderId}/${currentOrderId}`)
-            .then(res => {
-                alert("Összeszerelve!")
-                this.loadOrders()
-            })
-            .catch(e => {
-                alert(e + "\n\nValami gond volt az összeszereléssel")
-            });
+        OrderActions.updateOrderWithAssembling(fullOrderId,currentOrderId)
 
     }
 
@@ -113,7 +121,7 @@ class Worker extends React.Component {
                        onClick={this.handleAssembling.bind(this, orderId, orderIndex, isAssembled)}>Összeszerelve</li>
         }
         return <li key={orderId + isAssembled} className="btn btn-danger assembleButton"
-                   onClick={this.handleAssembling.bind(this, orderId, orderIndex, isAssembled)}>Még nincs
+                   onClick={this.handleAssembling.bind(this,orderId,orderIndex,isAssembled)}>Még nincs
             összeszerelve!</li>
     }
 
