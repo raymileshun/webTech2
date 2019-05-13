@@ -16,7 +16,8 @@
     "node-sass": "^4.12.0"
   },
   "scripts": {
-    "css": "scss scss/style.scss public/css/style.css",
-    "start": "npm run css  & node server.js"
+    "start": "cd client && npm run-script build && cd .. && node ./bin/www",
+    "install": "cd client && npm install && cd ..",
+    "test": "mocha ./tests"
   }
 }

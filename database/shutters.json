@@ -1,0 +1,47 @@
+
+[
+
+  {
+    "_id": "5cd9c2eb1ff70cf55f7fca7d",
+    "shutter": {
+      "material": "acél",
+      "price": "12000",
+      "parts": [
+        {
+          "requiredPart": "vezetősín",
+          "additionalPart": "csavar",
+          "additionalPartPieces": "4"
+        }
+      ]
+    }
+  },
+  {
+    "_id": "5cd9c2f61ff70cf55f7fca7e",
+    "shutter": {
+      "material": "műanyag",
+      "price": "10000",
+      "parts": [
+        {
+          "requiredPart": "heveder",
+          "additionalPart": "vastag csavar",
+          "additionalPartPieces": "6"
+        }
+      ]
+    }
+  },
+  {
+    "_id": "5cd9c3031ff70cf55f7fca7f",
+    "shutter": {
+      "material": "fa",
+      "price": "8000",
+      "parts": [
+        {
+          "requiredPart": "redőnyléc",
+          "additionalPart": "anyacsavar",
+          "additionalPartPieces": "3"
+        }
+      ]
+    }
+  }
+
+]

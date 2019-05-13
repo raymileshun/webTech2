@@ -9,8 +9,8 @@ const assert = require('assert');
 const url = 'mongodb://localhost:27017';
 
 // Database Name
-//const dbName = 'shutterAssignment';
-const dbName = 'dummy';
+const dbName = 'shutterAssignment';
+// const dbName = 'dummy';
 const orderCollectionName = 'orders';
 const shutterCollectionName = 'shutters';
 // Create a new MongoClient
