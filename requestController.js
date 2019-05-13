@@ -66,31 +66,6 @@ router.post('/submitPayment/:orderId', (req,res) =>{
     requestService.updateOrderWithPayment(req.params.orderId,() => {res.status(200).send("Kifizetés beérkezett!")})
 });
 
-function getCurrentJobId(requests){
-    if(requests.length==0){
-        return '1';
-    }
-    let max=requests[0].job.jobId;
-    for(i=1;i<requests.length;i++){
-        if(requests[i].job.jobId>max){
-            max=requests[i].job.jobId;
-        }
-    }
-    return parseInt(max)+1;
-}
-
-function getCurrentOrderId(requests){
-    if(requests.length==0){
-        return '1';
-    }
-    let max=requests[0].order.orderId;
-    for(i=1;i<requests.length;i++){
-        if(requests[i].order.orderId>max){
-            max=requests[i].order.orderId;
-        }
-    }
-    return parseInt(max)+1;
-}
 
 
 

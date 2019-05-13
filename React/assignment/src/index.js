@@ -25,7 +25,7 @@ const routing = (
     <Router>
         <div>
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand href="#home">Válasszon menüpontot</Navbar.Brand>
+                <Navbar.Brand>Válasszon menüpontot</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">

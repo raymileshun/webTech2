@@ -9,7 +9,7 @@ class Manager extends React.Component {
         super(props);
         let date = new Date();
         let year = date.getFullYear();
-        let day = String(date.getDate()).padStart(2, '0')
+        let day = date.getDate().toString().padStart(2, '0')
         let month = String(date.getMonth() + 1)
         if (month.length === 1) {
             month = "0" + month
