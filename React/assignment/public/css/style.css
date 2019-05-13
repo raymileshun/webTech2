@@ -74,4 +74,9 @@ a, a:visited, a:hover, a:active {
   margin-right: auto;
 }
 
+.oneCustomerOrdersTable {
+  margin-top: 40px;
+  width: 60%;
+}
+
 /*# sourceMappingURL=style.css.map */

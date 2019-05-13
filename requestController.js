@@ -62,6 +62,10 @@ router.post('/submitInstallationDate/:orderId/:installationDate', (req,res) =>{
     requestService.updateOrderWithInstallationDate(req.params.orderId,req.params.installationDate,() => {res.status(200).send("Szerelési időpont feljegyezve!")})
 });
 
+router.post('/submitPayment/:orderId', (req,res) =>{
+    requestService.updateOrderWithPayment(req.params.orderId,() => {res.status(200).send("Kifizetés beérkezett!")})
+});
+
 function getCurrentJobId(requests){
     if(requests.length==0){
         return '1';

@@ -120,6 +120,13 @@ class Manager extends React.Component {
         // this.setState({organizationInProcess:"false"})
     }
 
+    renderPaymentState(isPaid){
+        if(isPaid===undefined||isPaid==="false"){
+            return <tr className="text-danger">Még nincs kifizetve</tr>
+        }
+        return <tr className="text-success">Kifizetve</tr>
+    }
+
 
     render() {
         return <div>
@@ -139,6 +146,8 @@ class Manager extends React.Component {
                             </th>
                             <td>
                                 <tr className="text-black-50">Kifizetés állapota</tr>
+                                {this.renderPaymentState(order.order.isPaid)}
+
                             </td>
 
                             <tr>

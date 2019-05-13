@@ -30,7 +30,8 @@ class SubmitOrder extends React.Component {
             orders: [],
             shutters:[],
             orderRejected: "false",
-            customerOrders:[]
+            customerOrders:[],
+            currentCustomer:""
         }
     }
 
@@ -457,8 +458,7 @@ class SubmitOrder extends React.Component {
                     {this.getShoppingCart()}
                 </div>
                 <div>
-
-                    <CustomerOrders customerOrders={this.state.customerOrders}/>
+                    <CustomerOrders customerOrders={this.state.customerOrders} name={this.state.customerName}/>
                 </div>
 
             </div>

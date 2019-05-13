@@ -11,7 +11,8 @@
     "axios": "^0.18.0",
     "react-bar-chart": "^0.1.2",
     "bootstrap": "^4.3.1",
-    "node-sass": "^4.12.0"
+    "node-sass": "^4.12.0",
+    "react-bootstrap": "^1.0.0-beta.8"
   },
   "scripts": {
     "css": "sass scss/style.scss public/css/style.css",

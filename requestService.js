@@ -51,6 +51,10 @@ RequestService.prototype.updateOrderWithInstallationDate = function(orderId,date
     this.requestDAO.updateOrderWithInstallationDate(orderId,date, ()=>{success()})
 };
 
+RequestService.prototype.updateOrderWithPayment = function(orderId, success){
+    this.requestDAO.updateOrderWithPayment(orderId, ()=>{success()})
+};
+
 
 RequestService.prototype.submitRequest = function(request, success, error){
     this.requestDAO.createRequest(request, ()=>{success()})

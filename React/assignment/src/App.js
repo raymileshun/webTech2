@@ -5,20 +5,22 @@ import axios from "axios";
 import Manager from "./components/Manager";
 import Worker from  "./components/Worker"
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import SubmitOrder from "./components/SubmitOrder";
 
-
+const colors=[
+    "fekete",
+    "szürke",
+    "barna",
+    "narancssárga"
+]
 
 class App extends React.Component{
-    //TODO
-    //ENDPOINTOT ADNI A SHUTTEREKNEK
-    //MÉG VALAMI PARTSOKAT HOZZÁADNI, VISZONT MAJD A WORKER.JS-BEN IS ÁT KELL ALAKÍTANI A MEGJELENÍTÉST
-
-    //AXIOS HÍVÁST ÁTÍRNI FETCHRE
-    //KISZERVEZNI DISPATHERES CUCCRA
 
     constructor(props){
         super(props);
-
+        this.state={
+            Colors:colors
+        }
 
     }
 
@@ -27,8 +29,7 @@ class App extends React.Component{
         return (
             <div>
                 {console.log("App.js")}
-
-                <Customer/>
+                <SubmitOrder colors={this.state.Colors}/>
             </div>
 
         );

@@ -9,6 +9,27 @@ class CustomerOrders extends React.Component{
 
     }
 
+    submitPayment(orderId,isPaid){
+        if(isPaid==="true"){
+            alert("Ez már ki van fizetve")
+            return;
+        }
+        axios.post(`/submitPayment/${orderId}`)
+            .then(res => {
+                alert("Az összeget a beérkezésekor hagyjuk majd jóvá!")
+            })
+            .catch(e => {
+                alert(e + "\n\nValami gond volt a kifuzetéssel")
+            });
+    }
+
+    renderPaymentButton(orderId,isPaid){
+        if(isPaid ===undefined||isPaid==="false"){
+            return <button className="btn btn-danger ali" onClick={this.submitPayment.bind(this,orderId,isPaid)}>Kifizetés</button>
+        }
+        return <button className="btn btn-success" onClick={this.submitPayment.bind(this,orderId,isPaid)}>Kifizetve</button>
+    }
+
 
 
     render() {
@@ -19,9 +40,9 @@ class CustomerOrders extends React.Component{
         }
         return<div>
             <h4>Rendelések:</h4>
-            <table className="shoppingCartTable">
                 {this.props.customerOrders.map((currentOrder) =>
                     <div>
+                    <table className="oneCustomerOrdersTable table-striped table-bordered">
                         {currentOrder.order.orders.map((order)=>
                             <div>
                         <tr className="table-dark">
@@ -73,9 +94,12 @@ class CustomerOrders extends React.Component{
                         </tr>
                             </div>
                             )}
+                        {this.renderPaymentButton(currentOrder._id, currentOrder.order.isPaid)}
+                    </table>
                     </div>
+
                 )}
-            </table>
+
             <br/>
         </div>
 

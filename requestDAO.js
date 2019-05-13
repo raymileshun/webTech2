@@ -95,6 +95,22 @@ function updateOrderInstallation(orderId,date,callback){
     })
 }
 
+function updateOrderPayment(orderId,callback){
+    var client = new MongoClient(url);
+    client.connect((err)=>{
+        assert.equal(null, err);
+        const db = client.db(dbName);
+        const collection= db.collection(orderCollectionName);
+        const query =   { _id: ObjectId(orderId) };
+        const setter = {["order.isPaid"]:"true"};
+        collection.updateOne(query,{$set:setter}, (err,r)=> {
+            if (err) console.log(err);
+            callback();
+            client.close();
+        });
+    })
+}
+
 
 module.exports = {
     "createRequest" : createRequest,
@@ -102,5 +118,6 @@ module.exports = {
     "listOrdersOfCustomer": listOrdersOfCustomer,
     "updateOrderWithAssembling":updateOrder,
     "updateOrderWithInstallationDate":updateOrderInstallation,
-    "getShutters":getShutters
+    "getShutters":getShutters,
+    "updateOrderWithPayment":updateOrderPayment
 }
