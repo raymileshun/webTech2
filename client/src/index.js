@@ -41,8 +41,8 @@ const routing = (
                 </Navbar.Collapse>
             </Navbar>
             <Route exact path="/" render={(props) => <SubmitOrder {...props} colors={colors} />} />
-            <Route path="/worker" component={Worker} />
-            <Route path="/manager" component={Manager} />
+            <Route exact path="/worker" component={Worker} />
+            <Route exact path="/manager" component={Manager} />
             <Route path="/managerStatistics" component={Statistics} />
         </div>
     </Router>
