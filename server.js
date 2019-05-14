@@ -1,4 +1,5 @@
 var express = require('express')
+var path = require('path')
 var app = express();
 const port = 8090;
 var bodyParser = require('body-parser');
@@ -14,7 +15,8 @@ app.use(function(req, res, next) {
 const requestController = require('./routes/requestController')
 app.use('/',requestController)
 
-app.use(express.static('client/build'))
+// app.use(express.static('client/build'))
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.listen(port, ()=>{
     console.log(`Server is listening on ${port}`)
