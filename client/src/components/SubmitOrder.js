@@ -40,13 +40,13 @@ class SubmitOrder extends React.Component {
 
     onChange(){
         this.setState({customerOrders : OrderStore.orders});
-        this.setState({shutters : OrderStore.shutters});
+        // this.setState({shutters : OrderStore.shutters});
     }
 
 
     componentDidMount() {
         OrderStore.addChangeListener(this.onChange.bind(this));
-        OrderActions.listShutters()
+        // OrderActions.listShutters()
     }
 
     componentWillUnmount(){
@@ -84,11 +84,11 @@ class SubmitOrder extends React.Component {
     getPriceForCurrentOrder(shutterMaterial) {
         switch (shutterMaterial) {
             case "acél":
-                return this.state.shutters[0].shutter.price;
+                return this.props.shutters[0].shutter.price;
             case "műanyag":
-                return this.state.shutters[1].shutter.price
+                return this.props.shutters[1].shutter.price
             case "fa":
-                return this.state.shutters[2].shutter.price
+                return this.props.shutters[2].shutter.price
             default:
                 return "2000"
         }
@@ -235,7 +235,7 @@ class SubmitOrder extends React.Component {
 
 
     render() {
-        if(this.state.shutters.length===0){
+        if(this.props.shutters.length===0){
             return <div>Adatok betöltése</div>
         }
 
@@ -366,7 +366,7 @@ class SubmitOrder extends React.Component {
                                                 value={this.state.currentOrder.shutterMaterial}
                                                 className="form-control"
                                                 onChange={this.handleCurrentOrderChange.bind(this)}>
-                                            {this.state.shutters.map((shutter) =>
+                                            {this.props.shutters.map((shutter) =>
                                                 <option value={shutter.shutter.material}>{shutter.shutter.material}</option>
                                             )}
                                         </select>

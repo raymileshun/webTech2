@@ -26,23 +26,16 @@ class Worker extends React.Component {
             })
     }
 
-    loadShutters(){
-        axios.get(`/listShutters`)
-            .then(res => {
-                this.setState({ shutters: res.data});
-            })
-    }
-
     onChange(){
         this.setState({orders : OrderStore.orders});
-        this.setState({shutters : OrderStore.shutters});
+        // this.setState({shutters : OrderStore.shutters});
 
     }
 
     componentWillMount() {
         OrderStore.addChangeListener(this.onChange.bind(this));
         OrderActions.listOrders();
-        OrderActions.listShutters();
+        // OrderActions.listShutters();
         //this.loadOrders()
         //this.loadShutters()
     }
@@ -91,7 +84,7 @@ class Worker extends React.Component {
     }
 
     listParts(shutterMaterial, numberOfOrderedPieces) {
-        const shutters = this.state.shutters.filter(shutter => shutter.shutter.material.toUpperCase() === shutterMaterial.toUpperCase());
+        const shutters = this.props.shutters.filter(shutter => shutter.shutter.material.toUpperCase() === shutterMaterial.toUpperCase());
         return (
             <ul>
                 {shutters.map((shutter) =>

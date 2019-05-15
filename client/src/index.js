@@ -12,7 +12,54 @@ import SubmitOrder from "./components/SubmitOrder";
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import Form from "react-bootstrap/Form";
+
+
+var shutters=[
+    {
+        "_id": "5cd9c2eb1ff70cf55f7fca7d",
+        "shutter": {
+            "material": "acél",
+            "price": "12000",
+            "parts": [
+                {
+                    "requiredPart": "vezetősín",
+                    "additionalPart": "csavar",
+                    "additionalPartPieces": "4"
+                }
+            ]
+        }
+    },
+    {
+        "_id": "5cd9c2f61ff70cf55f7fca7e",
+        "shutter": {
+            "material": "műanyag",
+            "price": "10000",
+            "parts": [
+                {
+                    "requiredPart": "heveder",
+                    "additionalPart": "vastag csavar",
+                    "additionalPartPieces": "6"
+                }
+            ]
+        }
+    },
+    {
+        "_id": "5cd9c3031ff70cf55f7fca7f",
+        "shutter": {
+            "material": "fa",
+            "price": "8000",
+            "parts": [
+                {
+                    "requiredPart": "redőnyléc",
+                    "additionalPart": "anyacsavar",
+                    "additionalPartPieces": "3"
+                }
+            ]
+        }
+    }
+
+]
+
 
 const colors=[
     "fekete",
@@ -40,8 +87,8 @@ const routing = (
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
-            <Route exact path="/" render={(props) => <SubmitOrder {...props} colors={colors} />} />
-            <Route exact path="/worker" component={Worker} />
+            <Route exact path="/" render={(props) => <SubmitOrder {...props} colors={colors} shutters={shutters}/>} />
+            <Route exact path="/worker" render={(props) => <Worker {...props} shutters={shutters} />}/>
             <Route exact path="/manager" component={Manager} />
             <Route path="/managerStatistics" component={Statistics} />
         </div>
