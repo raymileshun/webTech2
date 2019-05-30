@@ -54,10 +54,10 @@ dispatcher.register((data)=>{
     if(data.payload.actionType !== OrderConstants.UPDATE_ASSEMBLE){
         return;
     }
-    axios.post(`/submitOrder/${data.payload.payload.orderId}/${data.payload.payload.orderIndex}`)
+    axios.post(`/submitAssembling/${data.payload.payload.orderId}/${data.payload.payload.orderIndex}`)
         .then(res => {
             alert("Összeszerelve!")
-            OrderActions.listOrders();
+            // OrderActions.listOrders();
             OrderStore.emitChange();
         })
         .catch(e => {
@@ -111,7 +111,7 @@ dispatcher.register((data)=>{
     axios.post(`/submitInstallationDate/${data.payload.payload.orderId}/${data.payload.payload.date}`)
         .then(res => {
             alert("Megszervezve!");
-            OrderActions.listOrders()
+            // OrderActions.listOrders()
             OrderStore.emitChange()
         })
         .catch(e => {

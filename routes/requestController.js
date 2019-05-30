@@ -54,7 +54,7 @@ router.post('/submitOrder', (req,res) =>{
         )
 })
 
-router.post('/submitOrder/:orderId/:currentOrderIndex', (req,res) =>{
+router.post('/submitAssembling/:orderId/:currentOrderIndex', (req,res) =>{
     requestService.updateOrderWithAssembling(req.params.orderId,req.params.currentOrderIndex,() => {res.status(200).send("Összeszerelve")})
 });
 

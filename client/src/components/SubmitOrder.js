@@ -1,6 +1,5 @@
 import React from "react"
 import OrderPicture from "./OrderPicture";
-import axios from "axios";
 import ShoppingCart from "./ShoppingCart";
 import CustomerOrders from "./CustomerOrders";
 import OrderActions from "../actions/OrderActions";

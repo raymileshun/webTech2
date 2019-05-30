@@ -19,14 +19,9 @@ class Worker extends React.Component {
         this.handleSearch = this.handleSearch.bind(this);
     }
 
-    loadOrders(){
-        axios.get(`/listOrders`)
-            .then(res => {
-                this.setState({ orders: res.data});
-            })
-    }
 
     onChange(){
+        OrderActions.listOrders();
         this.setState({orders : OrderStore.orders});
         // this.setState({shutters : OrderStore.shutters});
 

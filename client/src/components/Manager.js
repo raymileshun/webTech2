@@ -2,7 +2,8 @@ import React from "react"
 import ReactDOM from 'react-dom'
 import axios from "axios";
 import OrderActions from "../actions/OrderActions";
-import OrderStore from "../store/OrderStore"
+import OrderStore from "../store/OrderStore";
+import {Document, Page, Text, View, PDFDownloadLink, StyleSheet} from '@react-pdf/renderer';
 
 class Manager extends React.Component {
 
@@ -31,6 +32,7 @@ class Manager extends React.Component {
 
 
     onChange(){
+        OrderActions.listOrders()
         this.setState({orders : OrderStore.orders});
     }
 
@@ -44,7 +46,18 @@ class Manager extends React.Component {
     }
 
 
-    generateInvoice(orderIndex, orderId, customerName, phoneNumber, address, installationDate, price) {
+    generateInvoice(orderIndex, orderId, customerName, phoneNumber, address, installationDate, price,orders) {
+        const styles = StyleSheet.create({
+            page: {
+                flexDirection: 'row'
+            },
+            section: {
+                marginLeft: 10,
+                padding: 10,
+                flexGrow: 1,
+
+            }
+        });
         let invoice = <div>
             <table>
                 <tbody>
@@ -63,6 +76,32 @@ class Manager extends React.Component {
                 </tr>
                 </tbody>
             </table>
+            <PDFDownloadLink document={
+                <Document>
+                    <Page size="A6" style={styles.page}>
+                        <View style={styles.section}>
+                            <Text>----------Számla----------</Text>
+                            <Text style={{marginLeft:60}}>{Math.floor(Math.random()*1000)}-{Math.floor(Math.random()*100)}</Text>
+                            <Text/>
+                            <Text> Vásárló neve: {customerName}</Text>
+                            <Text> Telefonszáma: {phoneNumber}</Text>
+                            <Text> Címe: {address}</Text>
+                            <Text> Beszerelés idopontja: {installationDate}</Text>
+                            <Text/>
+                            <Text>Termékek:</Text>
+                            {orders.map((order) => (
+                            <Text>{order.windowType} {order.shutterColor} {order.numberOfPieces} db</Text>
+                            ))}
+                            <Text> Fizetendo összeg: {price} HUF</Text>
+
+
+
+
+                        </View>
+                    </Page>
+                </Document>} fileName="szamla.pdf">
+                {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Letöltés')}
+            </PDFDownloadLink>
         </div>
 
         let getInvoiceElement = "invoice" + orderIndex;
@@ -137,7 +176,6 @@ class Manager extends React.Component {
 
     render() {
         return <div>
-            {console.log("Manager.js")}
             {this.state.orders.map((order, orderIndex) =>
                 <div>
                     <table className="managerTable">
@@ -185,7 +223,7 @@ class Manager extends React.Component {
                         <div id={"date" + orderIndex}></div>
                         <div id={"button" + orderIndex}></div>
                         <button className="btn btn-success btn-sm"
-                                onClick={this.generateInvoice.bind(this, orderIndex, order._id, order.order.customerName, order.order.phoneNumber, order.order.address, order.order.installationDate, order.order.totalPrice)}>Számla
+                                onClick={this.generateInvoice.bind(this, orderIndex, order._id, order.order.customerName, order.order.phoneNumber, order.order.address, order.order.installationDate, order.order.totalPrice,order.order.orders)}>Számla
                             elkészítése
                         </button>
                         <div id={"invoice" + orderIndex}></div>
