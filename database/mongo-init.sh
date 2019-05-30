@@ -10,7 +10,10 @@ docker network create -d bridge --subnet $MONGO_NETWORK_MASK $MONGO_NETWORK_NAME
 
 docker run --detach --network $MONGO_NETWORK_NAME --ip $MONGO_HOST_IP mongo
 
-mongoimport --host $MONGO_HOST_IP --db shutterAssignment --collection orders orders.json
+sleep 2
+
 mongoimport --host $MONGO_HOST_IP --db shutterAssignment --collection shutters shutters.json
+mongoimport --host $MONGO_HOST_IP --db shutterAssignment --collection orders orders.json
+
 
 mongo --host $MONGO_HOST_IP
